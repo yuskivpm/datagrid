@@ -1,0 +1,22 @@
+.fixed-panel {
+  position: fixed;
+  top: 85px;
+  overflow: auto;
+  width: 100%;
+}
+
+.flex-panel {
+  display: flex;
+}
+
+.hugeTable.fixed-rows {
+  position: fixed;
+  z-index: 2;
+  background: white;
+  width: 100px;
+  overflow: hidden;
+}
+
+.fixed-rows-content {
+  position: absolute;
+}

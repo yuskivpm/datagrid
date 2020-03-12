@@ -1,0 +1,26 @@
+{
+  "column types": [
+    "number",
+    "string",
+    "enum - direct array with >2 values []",
+    "date - string/number(ms)",
+    "time - string/number(ms)",
+    "object",
+    "boolean - array with 2 [true,false] or [yes,no]"
+  ],
+  "tableData": {
+    "defaultFixedRowsColumnWidth": 120,
+    "defaultHeaderRowHeight": 90,
+    "defaultRowHeight": 70,
+    "virtualization": "boolean true - on, false - off",
+    "optionsMenuList": "array - list of visible columns",
+    "showFilters": "boolean",
+    "rows": "[] - array with rows",
+    "tableLoaded": "boolean = [undefined] - fetch data, [false]=(waiting for data), [true]=(data received)",
+    "error": "fetch error object",
+    "columnOrder": "[] - list of all column names in right order",
+    "globalFilter": "string - global filter text",
+    "columnsFilter": "[{columnName,filterText},...] - list of {columnName, filterText}",
+    "columnsSort": "{columnName,isAscending} (single column sort) / [{columnName,isAscending},...] (multy columns sort)"
+  }
+}
