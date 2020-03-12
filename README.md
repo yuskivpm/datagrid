@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="datagrid-yuskiv.netlify.com">Datagrid</a>
+  <a href="https://datagrid-yuskiv.netlify.com">Datagrid</a>
 </h1>
 
 # Self evaluation:
@@ -32,7 +32,7 @@
 - [x] **20** (In addition to the previous one) By holding ctrl/shift and/or the checkboxes column to the left, you can select several rows at the same time and apply an action to them.
 - [x] **20** You can adjust the visibility of the columns (all or some).
 - [x] **10** The fixed table header is aka sticky header, that is, when scrolling the table, the row with column names remains visible on top of the data.
-- [x] **20** Fixed left column. 
+- [x] **20** Fixed left column.
 
 ### Hacker scope - **50**
 - [x] **20** Saving values for sorting, filtering, column visibility (if implemented) are stored in localStorage so that when the page is refreshed, the state of the table is saved.
