@@ -40,7 +40,7 @@ export default function serverRequest(
   loadUiConst,
   onFinishFetching,
   fakerSeed,
-  rows = []
+  localRows = []
 ) {
   if (fakerSeed) {
     faker.seed(fakerSeed);
@@ -49,17 +49,17 @@ export default function serverRequest(
   /* eslint-disable no-param-reassign */
   recordsCount -= curIterationRowCount;
   /* eslint-enable no-param-reassign */
-  const localRows = rows.concat(
+  const rows = localRows.concat(
     [...new Array(curIterationRowCount)].map((_, index) =>
       generateFakeData(1 + index + recordsCount)
     )
   );
   if (recordsCount) {
     setTimeout(() =>
-      serverRequest(recordsCount, loadUiConst, onFinishFetching, fakerSeed, localRows)
+      serverRequest(recordsCount, loadUiConst, onFinishFetching, fakerSeed, rows)
     );
   } else {
-    let result = { localRows };
+    let result = { rows };
     if (loadUiConst) {
       result = Object.assign(result, {
         columnOrder: Object.keys(headers).slice(1),
