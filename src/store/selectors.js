@@ -10,16 +10,13 @@ const applayGlobalFilter = (rows = [], filteredRowIndexes = [], globalFilter = '
   if (globalFilter) {
     try {
       const filterRegex = new RegExp(globalFilter.trim(), 'i');
-      return rows.reduce((result, row, index) => {
-        if (
-          Object.entries(row).find(([columnName, cellValue]) =>
-            filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
-          )
-        ) {
-          result.push(index);
-        }
-        return result;
-      }, []);
+      return filteredRowIndexes
+        .filter(filteredIndex =>
+          Object.entries(rows[filteredIndex])
+            .find(([columnName, cellValue]) => filterRegex
+              .test(`${getCellValueAsString(cellValue, columnName)}`)
+            )
+        );
     } catch (e) {
       // ignore
     }
@@ -35,18 +32,15 @@ const applayColumnFilters = (rows = [], filteredRowIndexes = [], columnsFilter =
   if (columnsFilter && columnsFilter.length) {
     try {
       const regExArray = columnsFilter.map(({ filterText }) => new RegExp(filterText.trim(), 'i'));
-      return filteredRowIndexes.reduce((result, rowIndexValue) => {
-        if (
+
+      return filteredRowIndexes
+        .filter(filteredIndex =>
           columnsFilter.every(({ columnName }, index) =>
             regExArray[index].test(
-              `${getCellValueAsString(rows[rowIndexValue][columnName], columnName)}`
+              `${getCellValueAsString(rows[filteredIndex][columnName], columnName)}`
             )
           )
-        ) {
-          result.push(rowIndexValue);
-        }
-        return result;
-      }, []);
+        );
     } catch (e) {
       // ignore
     }
