@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MultiSelect } from 'primereact/multiselect';
+import { Button } from 'primereact/button';
 import { headers } from '../services/const';
 
 const fixedRowsHeader = props => {
@@ -37,9 +38,11 @@ const fixedRowsHeader = props => {
         selectedItemsLabel={defaultMenuText}
         onChange={event => onChangeColumnList(event.value)}
       />
-      <button type="button" onClick={() => onSaveCsv(filteredRowIndexes)}>
-        {saveToCsvButtonCaption}
-      </button>
+      <Button
+        label={saveToCsvButtonCaption}
+        tooltip="Download csv file with visible columns & filtered row data"
+        onClick={() => onSaveCsv(filteredRowIndexes)}
+      />
     </div>
   );
 };

@@ -35,21 +35,42 @@ export const generateFakeData = id => {
   return val;
 };
 
-export default function serverRequest(recordsCount = 1000, loadUiConst, fakerSeed) {
+const MAX_ROW_IN_ITERATION = 100;
+
+export default function serverRequest(
+  recordsCount = 1000,
+  loadUiConst,
+  onFinishFetching,
+  fakerSeed,
+  rows = []
+) {
   if (fakerSeed) {
     faker.seed(fakerSeed);
   }
-  const columnOrder = Object.keys(headers).slice(1);
-  let result = {
-    rows: [...new Array(recordsCount)].map((_, index) => generateFakeData(1 + index)),
-  };
-  if (loadUiConst) {
-    result = Object.assign(result, {
-      columnOrder,
-      defaultFixedRowsColumnWidth,
-      defaultHeaderRowHeight,
-      defaultRowHeight,
-    });
+  const curIterationRowCount = Math.min(MAX_ROW_IN_ITERATION, recordsCount);
+  recordsCount -= curIterationRowCount;
+  rows = rows.concat(
+    [...new Array(curIterationRowCount)]
+      .map((_, index) => generateFakeData(1 + index + recordsCount))
+  );
+  if (recordsCount) {
+    setTimeout(() => serverRequest(
+      recordsCount,
+      loadUiConst,
+      onFinishFetching,
+      fakerSeed,
+      rows)
+    );
+  } else {
+    let result = { rows };
+    if (loadUiConst) {
+      result = Object.assign(result, {
+        columnOrder: Object.keys(headers).slice(1),
+        defaultFixedRowsColumnWidth,
+        defaultHeaderRowHeight,
+        defaultRowHeight,
+      });
+    }
+    onFinishFetching(result);
   }
-  return result;
 }

@@ -12,13 +12,10 @@ export const fetchTableDataReceive = createAction(types.FETCH_TABLE_DATA_OK);
 export const fetchTableDataError = createAction(types.FETCH_TABLE_DATA_ERROR);
 //
 // thunk action creator
-export function fetchTableData(rowCount, loadUiConst) {
+export function fetchTableData(rowCount, loadUiConst, onFinishFetching) {
   return function callback(dispatch) {
     dispatch(fetchTableDataStart());
-    return fetchData(rowCount, loadUiConst).then(
-      data => dispatch(fetchTableDataReceive(data)),
-      error => dispatch(fetchTableDataError(error))
-    );
+    fetchData(rowCount, loadUiConst, onFinishFetching);
   };
 }
 //
