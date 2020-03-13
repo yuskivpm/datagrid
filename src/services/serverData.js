@@ -9,12 +9,10 @@ import {
 const leadingZero = number => (number < 10 ? `0${number}` : number);
 
 const getDateTimeValue = (dateTime, showTime = false) =>
-  /* eslint-disable prettier/prettier */
   `${dateTime.getFullYear()}-${leadingZero(1 + dateTime.getMonth())}-${leadingZero(
     dateTime.getDate()
   )}${showTime ? ` ${leadingZero(dateTime.getHours())}:${leadingZero(dateTime.getMinutes())}` : ''
   }`;
-/* eslint-ensable prettier/prettier */
 
 export const generateFakeData = id => {
   const val = {
