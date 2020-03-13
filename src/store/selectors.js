@@ -10,13 +10,11 @@ const applayGlobalFilter = (rows = [], filteredRowIndexes = [], globalFilter = '
   if (globalFilter) {
     try {
       const filterRegex = new RegExp(globalFilter.trim(), 'i');
-      return filteredRowIndexes
-        .filter(filteredIndex =>
-          Object.entries(rows[filteredIndex])
-            .find(([columnName, cellValue]) => filterRegex
-              .test(`${getCellValueAsString(cellValue, columnName)}`)
-            )
-        );
+      return filteredRowIndexes.filter(filteredIndex =>
+        Object.entries(rows[filteredIndex]).find(([columnName, cellValue]) =>
+          filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
+        )
+      );
     } catch (e) {
       // ignore
     }
@@ -32,15 +30,13 @@ const applayColumnFilters = (rows = [], filteredRowIndexes = [], columnsFilter =
   if (columnsFilter && columnsFilter.length) {
     try {
       const regExArray = columnsFilter.map(({ filterText }) => new RegExp(filterText.trim(), 'i'));
-
-      return filteredRowIndexes
-        .filter(filteredIndex =>
-          columnsFilter.every(({ columnName }, index) =>
-            regExArray[index].test(
-              `${getCellValueAsString(rows[filteredIndex][columnName], columnName)}`
-            )
+      return filteredRowIndexes.filter(filteredIndex =>
+        columnsFilter.every(({ columnName }, index) =>
+          regExArray[index].test(
+            `${getCellValueAsString(rows[filteredIndex][columnName], columnName)}`
           )
-        );
+        )
+      );
     } catch (e) {
       // ignore
     }

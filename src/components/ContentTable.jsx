@@ -77,6 +77,7 @@ const ContentTable = props => {
   const createRow = (filteredRowIndex, realRowIndex) => {
     const row = rows[filteredRowIndex];
     /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+    /* eslint-disable react/jsx-curly-newline */
     return (
       <div
         style={{ height: `${defaultRowHeight}px` }}
@@ -90,6 +91,7 @@ const ContentTable = props => {
         {columnOrder.map((columnName, index) => createCell(columnName, row, `${row.id}.${index}`))}
       </div>
     );
+    /* eslint-enable react/jsx-curly-newline */
     /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   };
 

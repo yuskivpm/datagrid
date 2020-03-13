@@ -38,6 +38,7 @@ const removeFailedValues = (list, values) =>
 const removeParentheses = text =>
   text.startsWith('(') && text.endsWith(')') ? text.substr(1, text.length - 2) : text;
 
+/* eslint-disable no-param-reassign, prefer-destructuring */
 // Fix filters list (invalid case in column names, deleting non-existent values from enum and boolean lists)
 const correctColumnsFilters = columnsFilter =>
   columnsFilter
@@ -63,9 +64,7 @@ const correctColumnsFilters = columnsFilter =>
 
 // Fix column order list (invalid case in column names, deleting non-existent namess)
 const correctColumns = columnOrder =>
-  columnOrder
-    .map(columnName => lowerCaseHeaders.get(columnName.toLowerCase()))
-    .filter(col => col);
+  columnOrder.map(columnName => lowerCaseHeaders.get(columnName.toLowerCase())).filter(col => col);
 
 const correctColumnSort = columnSortAsArray =>
   columnSortAsArray
@@ -84,9 +83,8 @@ export const checkAndCorrectStateValues = state => {
   }
   // remove incorrect values from columnsSort
   if (state.columnsSort) {
-    state.columnsSort = correctColumnSort(Array.isArray(state.columnsSort)
-      ? state.columnsSort
-      : [state.columnsSort]
+    state.columnsSort = correctColumnSort(
+      Array.isArray(state.columnsSort) ? state.columnsSort : [state.columnsSort]
     );
     switch (state.columnsSort.length) {
       case 0:
@@ -100,3 +98,4 @@ export const checkAndCorrectStateValues = state => {
   }
   return state;
 };
+/* eslint-enable no-param-reassign, prefer-destructuring */

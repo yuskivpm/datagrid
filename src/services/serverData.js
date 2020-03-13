@@ -9,12 +9,12 @@ import {
 const leadingZero = number => (number < 10 ? `0${number}` : number);
 
 const getDateTimeValue = (dateTime, showTime = false) =>
+  /* eslint-disable prettier/prettier */
   `${dateTime.getFullYear()}-${leadingZero(1 + dateTime.getMonth())}-${leadingZero(
     dateTime.getDate()
-  )}${showTime
-    ? ` ${leadingZero(dateTime.getHours())}:${leadingZero(dateTime.getMinutes())}`
-    : ''
+  )}${showTime ? ` ${leadingZero(dateTime.getHours())}:${leadingZero(dateTime.getMinutes())}` : ''
   }`;
+/* eslint-ensable prettier/prettier */
 
 export const generateFakeData = id => {
   const val = {
@@ -48,21 +48,20 @@ export default function serverRequest(
     faker.seed(fakerSeed);
   }
   const curIterationRowCount = Math.min(MAX_ROW_IN_ITERATION, recordsCount);
+  /* eslint-disable no-param-reassign */
   recordsCount -= curIterationRowCount;
-  rows = rows.concat(
-    [...new Array(curIterationRowCount)]
-      .map((_, index) => generateFakeData(1 + index + recordsCount))
+  /* eslint-enable no-param-reassign */
+  const localRows = rows.concat(
+    [...new Array(curIterationRowCount)].map((_, index) =>
+      generateFakeData(1 + index + recordsCount)
+    )
   );
   if (recordsCount) {
-    setTimeout(() => serverRequest(
-      recordsCount,
-      loadUiConst,
-      onFinishFetching,
-      fakerSeed,
-      rows)
+    setTimeout(() =>
+      serverRequest(recordsCount, loadUiConst, onFinishFetching, fakerSeed, localRows)
     );
   } else {
-    let result = { rows };
+    let result = { localRows };
     if (loadUiConst) {
       result = Object.assign(result, {
         columnOrder: Object.keys(headers).slice(1),

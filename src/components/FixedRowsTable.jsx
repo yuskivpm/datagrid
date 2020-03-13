@@ -28,6 +28,7 @@ const FixedRowsTable = props => {
     firstVisibleRow = 0;
     lastVisibleRow = visibleRowCount;
   }
+  /* eslint-disable react/jsx-curly-newline */
   return (
     <div
       className="table"
@@ -65,6 +66,7 @@ const FixedRowsTable = props => {
         ))}
     </div>
   );
+  /* eslint-enable react/jsx-curly-newline */
   /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 };
 

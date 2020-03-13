@@ -42,7 +42,7 @@ class PureMainPage extends React.Component {
       );
     }
     if (tableLoaded) {
-      /* eslint-disable jsx-a11y/label-has-associated-control */
+      /* eslint-disable jsx-a11y/label-has-associated-control, no-return-assign */
       return (
         <>
           <header>
@@ -83,7 +83,7 @@ class PureMainPage extends React.Component {
           <ConnectForTable />
         </>
       );
-      /* eslint-enable jsx-a11y/label-has-associated-control */
+      /* eslint-enable jsx-a11y/label-has-associated-control, no-return-assign */
     }
     if (typeof tableLoaded === 'undefined') {
       onNeedFetch(ROW_COUNT, typeof defaultRowHeight === 'undefined');

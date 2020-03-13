@@ -5,7 +5,7 @@ import {
   changeTableVirtualization,
   fetchTableData,
   fetchTableDataReceive,
-  fetchTableDataError
+  fetchTableDataError,
 } from '../store/actions';
 import rowsSortAndFilterSelector from '../store/selectors';
 
@@ -32,17 +32,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onGlobalFilterChange: searchText => dispatch(tableGlobalFilter(searchText)),
   onChangeTableVirtualization: () => dispatch(changeTableVirtualization()),
-  onNeedFetch: (rowCount, loadUiConst) => dispatch(
-    fetchTableData(
-      rowCount,
-      loadUiConst,
-      (data, error) => dispatch(
-        data
-          ? fetchTableDataReceive(data)
-          : fetchTableDataError(error)
+  onNeedFetch: (rowCount, loadUiConst) =>
+    dispatch(
+      fetchTableData(rowCount, loadUiConst, (data, error) =>
+        dispatch(data ? fetchTableDataReceive(data) : fetchTableDataError(error))
       )
-    )
-  ),
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PureMainPage);

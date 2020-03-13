@@ -78,7 +78,7 @@ const ContentTableHeader = props => {
           ? false
           : enumFilterText.substr(1, enumFilterText.length - 2).split('|');
         /* eslint-enable no-case-declarations */
-        /* eslint-disable react/jsx-boolean-value */
+        /* eslint-disable react/jsx-boolean-value, react/jsx-curly-newline */
         return (
           <MultiSelect
             value={enumValue}
@@ -137,6 +137,7 @@ const ContentTableHeader = props => {
         <div className={`${showFilters ? '' : 'hide'}`}>{getFilterInput(columnName)}</div>
       </div>
     );
+    /* eslint-enable react/jsx-curly-newline */
     /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   };
 
