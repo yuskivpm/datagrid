@@ -1,4 +1,5 @@
 import { headers } from '../services/const';
+import { checkAndCorrectStateValues } from './commonUtils';
 
 const querystring = require('querystring');
 
@@ -18,7 +19,7 @@ export const prepareFiltersFromUrl = search => {
     }
   });
   if (globalFilter || columnsFilter.length) {
-    return { globalFilter, columnsFilter };
+    return checkAndCorrectStateValues({ globalFilter, columnsFilter });
   }
   return undefined;
 };

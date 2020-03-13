@@ -1,7 +1,6 @@
 /* eslint-disable no-bitwise, no-param-reassign */
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
-import { headers } from '../services/const';
 
 const defaultFetchTableData = {
   rows: [],
@@ -11,42 +10,6 @@ const defaultFetchTableData = {
   columnOrder: [],
 };
 
-const removeFailedValues = (list, values) =>
-  list
-    .split('|')
-    .filter(item => values.includes(item))
-    .join('|');
-
-const removeParentheses = text =>
-  text.startsWith('(') && text.endsWith(')') ? text.substr(1, text.length - 2) : text;
-
-const correctColumnsFilters = columnsFilter => {
-  // Fix search list by URL (invalid case in column names, deleting non-existent values from enum and boolean lists)
-  const lowerCaseHeaders = new Map(Object.keys(headers).map(key => [key.toLowerCase(), key]));
-  return columnsFilter
-    .map(({ columnName: oldColumnName, filterText }) => {
-      const columnName = lowerCaseHeaders.get(oldColumnName.toLowerCase());
-      if (typeof columnName !== 'undefined') {
-        const curColumn = headers[columnName];
-        switch (curColumn.type) {
-          case 'enum':
-          case 'boolean':
-            filterText = `${removeFailedValues(removeParentheses(filterText), curColumn.values)}`;
-            if (filterText && curColumn.type === 'enum') {
-              filterText = `(${filterText})`;
-            }
-            break;
-          default:
-        }
-        return { columnName, filterText };
-      }
-      return { columnName, filterText: '' };
-    })
-    .filter(({ filterText }) => filterText);
-};
-
-const correctColumns = columnOrder => columnOrder.filter(col => headers[col]);
-
 const getIndexByColumnName = (array, searchForColumnName) =>
   array.findIndex(({ columnName }) => columnName === searchForColumnName);
 
@@ -55,18 +18,9 @@ const tableData = createReducer(defaultFetchTableData, {
     state.tableLoaded = false;
   },
   [actions.fetchTableDataReceive]: (state, action) => {
-    // remove incorrect values
-    const columnsFilter = [...correctColumnsFilters([...state.columnsFilter])];
-    // remove incorrect values
-    const columnOrder =
-      state.columnOrder && state.columnOrder.length
-        ? [...correctColumns([...state.columnOrder])]
-        : action.payload.columnOrder;
     return {
       ...state,
       ...action.payload,
-      columnsFilter,
-      columnOrder,
       tableLoaded: true,
     };
   },

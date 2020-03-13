@@ -1,3 +1,5 @@
+import { checkAndCorrectStateValues } from './commonUtils';
+
 const localStorageItemName = 'state';
 
 export const loadState = () => {
@@ -6,7 +8,7 @@ export const loadState = () => {
     if (localData === null) {
       return undefined;
     }
-    return JSON.parse(localData);
+    return checkAndCorrectStateValues(JSON.parse(localData));
   } catch (e) {
     return undefined;
   }
