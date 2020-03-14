@@ -18,7 +18,7 @@
     "rows": "[] - array with rows",
     "tableLoaded": "boolean = [undefined] - fetch data, [false]=(waiting for data), [true]=(data received)",
     "error": "fetch error object",
-    "columnOrder": "[] - list of all column names in right order",
+    "columnOrder": "[{columnName,isVisible}] - list of all column names in right order",
     "globalFilter": "string - global filter text",
     "columnsFilter": "[{columnName,filterText},...] - list of {columnName, filterText}",
     "columnsSort": "{columnName,isAscending} (single column sort) / [{columnName,isAscending},...] (multy columns sort)"

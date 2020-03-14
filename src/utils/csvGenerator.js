@@ -1,4 +1,4 @@
-import { getCellValueAsString } from './commonUtils';
+import { getCellValueAsString, getVisibleColumns } from './commonUtils';
 import { headers } from '../services/const';
 
 export const saveFileAs = (data, filename, type) => {
@@ -28,21 +28,22 @@ export const saveFileAs = (data, filename, type) => {
 
 const joinRow = row => `${row.join(',')}\r\n`;
 
-const getHead = columnOrder => joinRow(columnOrder.map(col => `"${headers[col].displayName}"`));
+const getHead = columnOrderNames => joinRow(columnOrderNames.map(col => `"${headers[col].displayName}"`));
 
-const getBodyRow = (columnOrder, row) =>
+const getBodyRow = (columnOrderNames, row) =>
   joinRow(
-    columnOrder.map(
+    columnOrderNames.map(
       col => `"${`${getCellValueAsString(row[col], col)}`.replace(new RegExp('"', 'g'), '""')}"`
     )
   );
 
-const getBody = (filteredRowIndexdata, columnOrder, rows) =>
-  filteredRowIndexdata.map(filteredRowIndex => getBodyRow(columnOrder, rows[filteredRowIndex]));
+const getBody = (filteredRowIndexdata, columnOrderNames, rows) =>
+  filteredRowIndexdata.map(filteredRowIndex => getBodyRow(columnOrderNames, rows[filteredRowIndex]));
 
 export const prepareAndSaveCsvFile = (columnOrder, rows, filteredRowIndexdata) => {
+  const columnOrderNames = getVisibleColumns(columnOrder).map(({ columnName }) => columnName);
   saveFileAs(
-    [...getHead(columnOrder), ...getBody(filteredRowIndexdata, columnOrder, rows)],
+    [...getHead(columnOrderNames), ...getBody(filteredRowIndexdata, columnOrderNames, rows)],
     'data.csv',
     'text/csv'
   );

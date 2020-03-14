@@ -1,6 +1,9 @@
 import { headers } from '../services/const';
 
 // ** global table function **
+export const getVisibleColumns = (columnOrder) => columnOrder.filter(({ isVisible }) => isVisible);
+
+
 export const isCheckedRow = (rows, selectedRows, filteredRowIndex) =>
   selectedRows.includes(rows[filteredRowIndex].id);
 
@@ -22,7 +25,7 @@ export const getCellValueAsString = (cell, columnName) => {
 };
 
 export const getTableWidth = columnOrder =>
-  columnOrder.reduce((width, columnName) => width + headers[columnName].colWidth, 0);
+  getVisibleColumns(columnOrder).reduce((width, { columnName }) => width + headers[columnName].colWidth, 0);
 
 // ** global state correction function **
 
@@ -64,7 +67,9 @@ const correctColumnsFilters = columnsFilter =>
 
 // Fix column order list (invalid case in column names, deleting non-existent namess)
 const correctColumns = columnOrder =>
-  columnOrder.map(columnName => lowerCaseHeaders.get(columnName.toLowerCase())).filter(col => col);
+  columnOrder.map(colObject =>
+    ({ ...colObject, columnName: lowerCaseHeaders.get(colObject.columnName.toLowerCase()) })
+  ).filter(col => col);
 
 const correctColumnSort = columnSortAsArray =>
   columnSortAsArray

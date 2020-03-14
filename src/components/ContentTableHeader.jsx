@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { SelectButton } from 'primereact/selectbutton';
 import { MultiSelect } from 'primereact/multiselect';
 import { InputText } from 'primereact/inputtext';
-import { getTableWidth } from '../utils/commonUtils';
+import { getTableWidth, getVisibleColumns } from '../utils/commonUtils';
 import { headers } from '../services/const';
 
 const sortText = ['pi-sort-amount-down', 'pi-sort-amount-down-alt', 'pi-sort-alt'];
@@ -104,7 +104,7 @@ const ContentTableHeader = props => {
     }
   };
 
-  const createTh = columnName => {
+  const createTh = ({ columnName }) => {
     const sortType = getSortType(columnName);
     /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     return (
@@ -156,14 +156,14 @@ const ContentTableHeader = props => {
           left: scrollLeft,
         }}
       >
-        {columnOrder.map(createTh)}
+        {getVisibleColumns(columnOrder).map(createTh)}
       </div>
     </div>
   );
 };
 
 ContentTableHeader.propTypes = {
-  columnOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
+  columnOrder: PropTypes.arrayOf(PropTypes.object).isRequired,
   columnsFilter: PropTypes.arrayOf(PropTypes.object).isRequired,
   showFilters: PropTypes.bool.isRequired,
   onSortChange: PropTypes.func.isRequired,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isCheckedRow, getTableWidth } from '../utils/commonUtils';
+import { isCheckedRow, getTableWidth, getVisibleColumns } from '../utils/commonUtils';
 import { headers } from '../services/const';
 
 const objectToString = cell => {
@@ -88,7 +88,7 @@ const ContentTable = props => {
         }
         onClick={event => onRowsSelectionChange(event, row.id, realRowIndex)}
       >
-        {columnOrder.map((columnName, index) => createCell(columnName, row, `${row.id}.${index}`))}
+        {getVisibleColumns(columnOrder).map(({ columnName }, index) => createCell(columnName, row, `${row.id}.${index}`))}
       </div>
     );
     /* eslint-enable react/jsx-curly-newline */
@@ -113,7 +113,7 @@ const ContentTable = props => {
 };
 
 ContentTable.propTypes = {
-  columnOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
+  columnOrder: PropTypes.arrayOf(PropTypes.object).isRequired,
   filteredRowIndexes: PropTypes.arrayOf(PropTypes.number).isRequired,
   onHandleScroll: PropTypes.func.isRequired,
   onRowsSelectionChange: PropTypes.func.isRequired,

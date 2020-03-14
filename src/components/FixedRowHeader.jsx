@@ -30,7 +30,7 @@ const fixedRowsHeader = props => {
       }}
     >
       <MultiSelect
-        value={columnOrder}
+        value={columnOrder.map(({ columnName }) => columnName)}
         options={optionsMenu}
         placeholder={defaultMenuText}
         filter={false}
@@ -48,7 +48,7 @@ const fixedRowsHeader = props => {
 };
 
 fixedRowsHeader.propTypes = {
-  columnOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
+  columnOrder: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeColumnList: PropTypes.func.isRequired,
   onSaveCsv: PropTypes.func.isRequired,
   saveToCsvButtonCaption: PropTypes.string.isRequired,

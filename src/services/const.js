@@ -5,11 +5,11 @@ export const defaultRowHeight = 70;
 // aviable types list = ['number','string','datetime','instant','enum','object','boolean'];
 
 export const headers = {
-  id: {
-    type: 'number',
-    displayName: 'id',
-    colWidth: 150,
-  },
+  // id: {
+  //   type: 'number',
+  //   displayName: 'id',
+  //   colWidth: 150,
+  // },
   name: {
     type: 'string',
     displayName: 'Name',
