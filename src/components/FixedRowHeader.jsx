@@ -30,7 +30,7 @@ const fixedRowsHeader = props => {
       }}
     >
       <MultiSelect
-        value={columnOrder.map(({ columnName }) => columnName)}
+        value={columnOrder.filter(({ isVisible }) => isVisible).map(({ columnName }) => columnName)}
         options={optionsMenu}
         placeholder={defaultMenuText}
         filter={false}

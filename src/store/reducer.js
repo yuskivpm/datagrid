@@ -81,7 +81,9 @@ const tableData = createReducer(defaultFetchTableData, {
     state.rows = state.rows.filter(row => !action.payload.includes(row.id));
   },
   [actions.changeColumnList]: (state, action) => {
-    state.columnOrder = action.payload;
+    state.columnOrder = state.columnOrder.map(({ columnName }) =>
+      ({ columnName, isVisible: action.payload.includes(columnName) })
+    );
   },
 });
 

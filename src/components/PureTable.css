@@ -1,5 +1,4 @@
-main,
-.table-content {
+main, .table-content {
   display: flex;
 }
 
@@ -22,14 +21,12 @@ main,
   position: absolute;
 }
 
-.th,
-.area-fixed-rows .tr {
+.th, .area-fixed-rows .tr {
   background-color: #4caf50;
   color: white;
 }
 
-.td,
-.th {
+.td, .th {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -46,8 +43,7 @@ main,
   padding: 3px;
 }
 
-.th input,
-.th .p-multiselect {
+.th input, .th .p-multiselect {
   display: block;
   width: 100%;
 }
@@ -70,8 +66,7 @@ main,
   content: '';
 }
 
-.table-header.table-value,
-.tr-values {
+.table-header.table-value, .tr-values {
   display: flex;
 }
 
@@ -84,9 +79,7 @@ main,
   display: none;
 }
 
-.pi.pi-filter,
-.pi-sort-amount-down,
-.pi-sort-amount-down-alt {
+.pi.pi-filter, .pi-sort-amount-down, .pi-sort-amount-down-alt {
   color: aqua;
 }
 
@@ -110,8 +103,7 @@ main,
   background-color: #ddd;
 }
 
-.tr.selected-row,
-.scroll-area .tr.selected-row {
+.tr.selected-row, .scroll-area .tr.selected-row {
   background-color: aqua;
   color: black;
 }
@@ -120,4 +112,8 @@ main,
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+
+ul.p-multiselect-items li.p-multiselect-item div.p-checkbox.p-component {
+  display: none;
 }
