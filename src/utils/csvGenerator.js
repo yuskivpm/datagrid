@@ -28,7 +28,8 @@ export const saveFileAs = (data, filename, type) => {
 
 const joinRow = row => `${row.join(',')}\r\n`;
 
-const getHead = columnOrderNames => joinRow(columnOrderNames.map(col => `"${headers[col].displayName}"`));
+const getHead = columnOrderNames =>
+  joinRow(columnOrderNames.map(col => `"${headers[col].displayName}"`));
 
 const getBodyRow = (columnOrderNames, row) =>
   joinRow(
@@ -38,7 +39,9 @@ const getBodyRow = (columnOrderNames, row) =>
   );
 
 const getBody = (filteredRowIndexdata, columnOrderNames, rows) =>
-  filteredRowIndexdata.map(filteredRowIndex => getBodyRow(columnOrderNames, rows[filteredRowIndex]));
+  filteredRowIndexdata.map(filteredRowIndex =>
+    getBodyRow(columnOrderNames, rows[filteredRowIndex])
+  );
 
 export const prepareAndSaveCsvFile = (columnOrder, rows, filteredRowIndexdata) => {
   const columnOrderNames = getVisibleColumns(columnOrder).map(({ columnName }) => columnName);

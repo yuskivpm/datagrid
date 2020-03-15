@@ -9,6 +9,7 @@
     "boolean - array with 2 [true,false] or [yes,no]"
   ],
   "tableData": {
+    "fixedColumnsCount": 1,
     "defaultFixedRowsColumnWidth": 120,
     "defaultHeaderRowHeight": 90,
     "defaultRowHeight": 70,

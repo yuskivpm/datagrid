@@ -15,10 +15,13 @@ export const loadState = () => {
 };
 
 export const saveState = ({
-  tableData: { error, rows, tableLoaded, virtualization, ...restState },
+  tableData: { globalFilter, columnsFilter, columnsSort, columnOrder, showFilters },
 }) => {
   try {
-    localStorage.setItem(localStorageItemName, JSON.stringify(restState));
+    localStorage.setItem(
+      localStorageItemName,
+      JSON.stringify({ globalFilter, columnsFilter, columnsSort, columnOrder, showFilters })
+    );
   } catch (e) {
     // ignore
   }

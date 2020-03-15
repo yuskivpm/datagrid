@@ -1,4 +1,5 @@
-/* eslint-disable no-bitwise, no-param-reassign */
+/* eslint-disable no-param-reassign */
+// because createReducer allow using "mutation" of params, by creating a special proxi objects
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
 
@@ -8,6 +9,7 @@ const defaultFetchTableData = {
   columnsFilter: [],
   columnsSort: {},
   columnOrder: [],
+  virtualization: true,
 };
 
 const getIndexByColumnName = (array, searchForColumnName) =>
@@ -35,7 +37,8 @@ const tableData = createReducer(defaultFetchTableData, {
     const filterValue = action.payload.filterText;
     const indexInList = getIndexByColumnName(state.columnsFilter, action.payload.columnName);
     if (filterValue) {
-      if (~indexInList) {
+      if (indexInList >= 0) {
+        // to avoid eslint no-bitwise
         state.columnsFilter[indexInList].filterText = filterValue;
       } else {
         state.columnsFilter.push({
@@ -43,7 +46,8 @@ const tableData = createReducer(defaultFetchTableData, {
           filterText: filterValue,
         });
       }
-    } else if (~indexInList) {
+    } else if (indexInList >= 0) {
+      // to avoid eslint no-bitwise
       // remove filter if empty string
       state.columnsFilter.splice(indexInList, 1);
     }
@@ -64,7 +68,8 @@ const tableData = createReducer(defaultFetchTableData, {
       state.columnsSort = [defSort];
     } else {
       const indexInList = getIndexByColumnName(state.columnsSort, action.payload.columnName);
-      if (~indexInList) {
+      if (indexInList >= 0) {
+        // to avoid eslint no-bitwise
         state.columnsSort[indexInList].isAscending = !state.columnsSort[indexInList].isAscending;
       } else {
         state.columnsSort.push(defSort);
@@ -81,9 +86,10 @@ const tableData = createReducer(defaultFetchTableData, {
     state.rows = state.rows.filter(row => !action.payload.includes(row.id));
   },
   [actions.changeColumnList]: (state, action) => {
-    state.columnOrder = state.columnOrder.map(({ columnName }) =>
-      ({ columnName, isVisible: action.payload.includes(columnName) })
-    );
+    state.columnOrder = state.columnOrder.map(({ columnName }) => ({
+      columnName,
+      isVisible: action.payload.includes(columnName),
+    }));
   },
 });
 

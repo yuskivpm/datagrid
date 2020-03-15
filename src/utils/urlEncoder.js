@@ -1,4 +1,4 @@
-import { headers } from '../services/const';
+import { headers, types } from '../services/const';
 import { checkAndCorrectStateValues } from './commonUtils';
 
 const querystring = require('querystring');
@@ -34,7 +34,7 @@ export const generateUrl = (globalFilter, columnsFilter) => {
   }
   columnsFilter.forEach(({ columnName, filterText }) => {
     switch (headers[columnName].type) {
-      case 'enum':
+      case types.ENUM:
         result.push(
           filterText
             .substr(1, filterText.length - 2)

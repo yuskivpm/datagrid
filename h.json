@@ -1,0 +1,70 @@
+{
+  "name": {
+    "type": "string",
+    "displayName": "Name"
+  },
+  "role": {
+    "type": "enum",
+    "displayName": "Role",
+    "colWidth": 150,
+    "values": ["mentor", "student", "activist"]
+  },
+  "rank": {
+    "type": "number",
+    "displayName": "Rank",
+    "colWidth": 150
+  },
+  "isActive": {
+    "type": "boolean",
+    "displayName": "Is active",
+    "colWidth": 150,
+    "values": ["no", "yes"]
+  },
+  "involved": {
+    "type": "instant",
+    "displayName": "Involved"
+  },
+  "participation": {
+    "type": "boolean",
+    "displayName": "Participation",
+    "values": ["free", "hired"]
+  },
+  "jobTitle": {
+    "type": "string",
+    "displayName": "Job"
+  },
+  "companyName": {
+    "type": "string",
+    "displayName": "Company"
+  },
+  "account": {
+    "type": "string",
+    "displayName": "Account"
+  },
+  "birthDate": {
+    "type": "datetime",
+    "displayName": "Birth date"
+  },
+  "hobbies": {
+    "type": "enum",
+    "displayName": "Hobbies",
+    "values": [
+      "fishing",
+      "football",
+      "tourism",
+      "hunting",
+      "theater",
+      "calligraphy",
+      "modding",
+      "dance",
+      "baking",
+      "catering"
+    ]
+  },
+  "location": {
+    "type": "object",
+    "displayName": "Location",
+    "colWidth": 250,
+    "values": { "city": "string", "zipcode": "number" }
+  }
+}

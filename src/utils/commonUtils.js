@@ -1,8 +1,8 @@
-import { headers } from '../services/const';
+import { headers, types } from '../services/const';
 
 // ** global table function **
-export const getVisibleColumns = (columnOrder) => columnOrder.filter(({ isVisible }) => isVisible);
 
+export const getVisibleColumns = columnOrder => columnOrder.filter(({ isVisible }) => isVisible);
 
 export const isCheckedRow = (rows, selectedRows, filteredRowIndex) =>
   selectedRows.includes(rows[filteredRowIndex].id);
@@ -10,11 +10,11 @@ export const isCheckedRow = (rows, selectedRows, filteredRowIndex) =>
 export const getCellValueAsString = (cell, columnName) => {
   try {
     switch (headers[columnName].type) {
-      case 'object':
+      case types.OBJECT:
         return JSON.stringify(cell);
-      case 'instant':
+      case types.INSTANT:
         return new Date(cell).toISOString();
-      case 'boolean':
+      case types.BOOLEAN:
         return headers[columnName].values[+cell];
       default:
         return cell;
@@ -24,8 +24,27 @@ export const getCellValueAsString = (cell, columnName) => {
   }
 };
 
+export const objectToString = cell => {
+  try {
+    return JSON.stringify(cell, null, 2);
+  } catch (_) {
+    return '';
+  }
+};
+
+export const dateToString = cell => {
+  try {
+    return new Date(cell).toISOString();
+  } catch (_) {
+    return '';
+  }
+};
+
 export const getTableWidth = columnOrder =>
-  getVisibleColumns(columnOrder).reduce((width, { columnName }) => width + headers[columnName].colWidth, 0);
+  getVisibleColumns(columnOrder).reduce(
+    (width, { columnName }) => width + headers[columnName].colWidth,
+    0
+  );
 
 // ** global state correction function **
 
@@ -41,19 +60,19 @@ const removeFailedValues = (list, values) =>
 const removeParentheses = text =>
   text.startsWith('(') && text.endsWith(')') ? text.substr(1, text.length - 2) : text;
 
-/* eslint-disable no-param-reassign, prefer-destructuring */
 // Fix filters list (invalid case in column names, deleting non-existent values from enum and boolean lists)
 const correctColumnsFilters = columnsFilter =>
   columnsFilter
-    .map(({ columnName: oldColumnName, filterText }) => {
+    .map(({ columnName: oldColumnName, filterText: localFilterText }) => {
       const columnName = lowerCaseHeaders.get(oldColumnName.toLowerCase());
+      let filterText = localFilterText; // to avoid eslint no-param-reassign
       if (typeof columnName !== 'undefined') {
         const curColumn = headers[columnName];
         switch (curColumn.type) {
-          case 'enum':
-          case 'boolean':
+          case types.ENUM:
+          case types.BOOLEAN:
             filterText = `${removeFailedValues(removeParentheses(filterText), curColumn.values)}`;
-            if (filterText && curColumn.type === 'enum') {
+            if (filterText && curColumn.type === types.ENUM) {
               filterText = `(${filterText})`;
             }
             break;
@@ -67,17 +86,21 @@ const correctColumnsFilters = columnsFilter =>
 
 // Fix column order list (invalid case in column names, deleting non-existent namess)
 const correctColumns = columnOrder =>
-  columnOrder.map(colObject =>
-    ({ ...colObject, columnName: lowerCaseHeaders.get(colObject.columnName.toLowerCase()) })
-  ).filter(col => col);
+  columnOrder
+    .map(colObject => ({
+      ...colObject,
+      columnName: lowerCaseHeaders.get(colObject.columnName.toLowerCase()),
+    }))
+    .filter(({ columnName }) => columnName);
 
 const correctColumnSort = columnSortAsArray =>
   columnSortAsArray
     .map(item => ({ ...item, columnName: lowerCaseHeaders.get(item.columnName.toLowerCase()) }))
     .filter(({ columnName }) => columnName);
 
-export const checkAndCorrectStateValues = state => {
+export const checkAndCorrectStateValues = oldState => {
   lowerCaseHeaders = new Map(Object.keys(headers).map(key => [key.toLowerCase(), key]));
+  const state = { ...oldState }; // to avoid eslint no-param-reassign
   // remove incorrect values from columnsFilter
   if (state.columnsFilter) {
     state.columnsFilter = correctColumnsFilters(state.columnsFilter);
@@ -96,11 +119,10 @@ export const checkAndCorrectStateValues = state => {
         state.columnsSort = {};
         break;
       case 1:
-        state.columnsSort = state.columnsSort[0];
+        [state.columnsSort] = state.columnsSort; // to avoid eslint prefer-destructuring
         break;
       default:
     }
   }
   return state;
 };
-/* eslint-enable no-param-reassign, prefer-destructuring */

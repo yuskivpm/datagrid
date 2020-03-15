@@ -11,7 +11,8 @@ const leadingZero = number => (number < 10 ? `0${number}` : number);
 const getDateTimeValue = (dateTime, showTime = false) =>
   `${dateTime.getFullYear()}-${leadingZero(1 + dateTime.getMonth())}-${leadingZero(
     dateTime.getDate()
-  )}${showTime ? ` ${leadingZero(dateTime.getHours())}:${leadingZero(dateTime.getMinutes())}` : ''
+  )}${
+    showTime ? ` ${leadingZero(dateTime.getHours())}:${leadingZero(dateTime.getMinutes())}` : ''
   }`;
 
 export const generateFakeData = id => {
@@ -46,17 +47,15 @@ export default function serverRequest(
     faker.seed(fakerSeed);
   }
   const curIterationRowCount = Math.min(MAX_ROW_IN_ITERATION, recordsCount);
-  /* eslint-disable no-param-reassign */
-  recordsCount -= curIterationRowCount;
-  /* eslint-enable no-param-reassign */
+  const localRecordsCount = recordsCount - curIterationRowCount; // to avoid eslint no-param-reassign
   const rows = localRows.concat(
     [...new Array(curIterationRowCount)].map((_, index) =>
-      generateFakeData(1 + index + recordsCount)
+      generateFakeData(1 + index + localRecordsCount)
     )
   );
-  if (recordsCount) {
+  if (localRecordsCount) {
     setTimeout(() =>
-      serverRequest(recordsCount, loadUiConst, onFinishFetching, fakerSeed, rows)
+      serverRequest(localRecordsCount, loadUiConst, onFinishFetching, fakerSeed, rows)
     );
   } else {
     let result = { rows };

@@ -4,11 +4,11 @@ import { InputText } from 'primereact/inputtext';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
 import { Growl } from 'primereact/growl';
-import ConnectForTable from '../containers/ConnectForTable';
+import ConnectForTable from '../containers/ConnectForTableNew';
 import spinner from '../assets/spinner.svg';
 import { generateUrl } from '../utils/urlEncoder';
 
-const ROW_COUNT = 2000;
+const ROW_COUNT = 100;
 
 class PureMainPage extends React.Component {
   showSticky = () => {
@@ -42,11 +42,16 @@ class PureMainPage extends React.Component {
       );
     }
     if (tableLoaded) {
-      /* eslint-disable jsx-a11y/label-has-associated-control, no-return-assign */
+      /* eslint-disable jsx-a11y/label-has-associated-control */ // <- Primereact need it
       return (
         <>
           <header>
-            <Growl ref={el => (this.growl = el)} />
+            <Growl
+              ref={el => {
+                this.growl = el;
+                return el; // to avoid eslint no-return-assign
+              }}
+            />
             <ToggleButton
               onLabel="Turbo ON"
               offLabel="Turbo OFF"
@@ -80,10 +85,10 @@ class PureMainPage extends React.Component {
               <b>{filteredRowsCount}</b>
             </p>
           </header>
-          <ConnectForTable />
+          <ConnectForTable defaultMenuText="Columns" saveToCsvButtonCaption="Save to csv" />
         </>
       );
-      /* eslint-enable jsx-a11y/label-has-associated-control, no-return-assign */
+      /* eslint-enable jsx-a11y/label-has-associated-control */
     }
     if (typeof tableLoaded === 'undefined') {
       onNeedFetch(ROW_COUNT, typeof defaultRowHeight === 'undefined');

@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getCellValueAsString } from '../utils/commonUtils';
-import { headers } from '../services/const';
+import { headers, types } from '../services/const';
 
 const getDefaultIndexesArray = rowsCount => [...Array(rowsCount)].map((_, index) => index);
 
@@ -55,7 +55,7 @@ const cmpSingle = (firstRow, secondRow, { columnName, isAscending }) => {
     return 0;
   }
   switch (headers[columnName].type) {
-    case 'object':
+    case types.OBJECT:
       try {
         firstCell = JSON.stringify(firstCell);
         secondCell = JSON.stringify(secondCell);
@@ -72,9 +72,10 @@ const cmpSingle = (firstRow, secondRow, { columnName, isAscending }) => {
 //
 const cmpMultiply = (firstRow, secondRow, columnsSort) => {
   let result = 0;
-  /* eslint-disable no-return-assign */
-  columnsSort.find(sortCell => (result = cmpSingle(firstRow, secondRow, sortCell)));
-  /* eslint-enable no-return-assign */
+  columnsSort.find(sortCell => {
+    result = cmpSingle(firstRow, secondRow, sortCell);
+    return result; // to avoid eslint no-return-assign
+  });
   return result;
 };
 //

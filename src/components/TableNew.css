@@ -1,0 +1,134 @@
+.number {
+  justify-content: right;
+}
+
+.boolean {
+  justify-content: center;
+}
+
+.table {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.scroll {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+}
+
+.tr {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.tr.stiky {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  color: white;
+}
+
+.tr.selected-row .pi-trash:before {
+  content: '\e93d';
+  vertical-align: sub;
+}
+
+.tr.selected-row .td.value,
+.tr.selected-row .fix-num {
+  background-color: aqua !important;
+  color: black;
+}
+
+.tr.content {
+  position: absolute;
+}
+
+.th,
+.td.fix-num {
+  background-color: green;
+  color: white;
+}
+
+.th.stiky.fix-num {
+  z-index: 10;
+}
+
+.th-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px;
+}
+
+.th input,
+.th .p-multiselect {
+  display: block;
+  width: 100%;
+}
+
+.th .p-selectbutton {
+  width: 100%;
+  display: flex;
+}
+
+.th .p-selectbutton .p-button {
+  flex-grow: 1;
+}
+
+.th.stiky,
+.td.fix-num {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.td,
+.th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.td {
+  display: flex;
+  align-items: center;
+}
+
+.td.stiky {
+  position: sticky;
+  left: 0;
+}
+
+.td .pi-trash:before {
+  content: '';
+}
+
+.hide {
+  display: none;
+}
+
+ul.p-multiselect-items li.p-multiselect-item div.p-checkbox.p-component {
+  display: none;
+}
+
+.pi.pi-filter,
+.pi-sort-amount-down,
+.pi-sort-amount-down-alt {
+  color: aqua;
+}
+
+.tr.content:hover {
+  outline: 3px inset red;
+  z-index: 2;
+}
+
+.tr.even .td:not(.fix-num) {
+  background-color: #f2f2f2;
+}
+
+.tr.odd .td:not(.fix-num) {
+  background-color: white;
+}
