@@ -8,7 +8,7 @@ import ConnectForTable from '../containers/ConnectForTableNew';
 import spinner from '../assets/spinner.svg';
 import { generateUrl } from '../utils/urlEncoder';
 
-const ROW_COUNT = 100;
+const ROW_COUNT = 2000;
 
 class PureMainPage extends React.Component {
   showSticky = () => {
