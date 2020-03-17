@@ -4,44 +4,50 @@ import { headers, types } from '../services/const';
 
 const getDefaultIndexesArray = rowsCount => [...Array(rowsCount)].map((_, index) => index);
 
+const genereteSkippedList = (rows, filterFailed) =>
+  rows.reduce((skippedIndexesList, row, index) => {
+    if (filterFailed(row)) {
+      skippedIndexesList.push(index);
+    }
+    return skippedIndexesList;
+  }, []);
+
 // * START * Global filter
 //
-const applayGlobalFilter = (rows = [], filteredRowIndexes = [], globalFilter = '') => {
+const applayGlobalFilter = (rows = [], globalFilter = '') => {
   if (globalFilter) {
     try {
       const filterRegex = new RegExp(globalFilter.trim(), 'i');
-      return filteredRowIndexes.filter(filteredIndex =>
-        Object.entries(rows[filteredIndex]).find(([columnName, cellValue]) =>
+      const filterFailed = row =>
+        !Object.entries(row).find(([columnName, cellValue]) =>
           filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
-        )
-      );
+        );
+      return genereteSkippedList(rows, filterFailed);
     } catch (e) {
       // ignore
     }
   }
-  return filteredRowIndexes;
+  return [];
 };
 //
 // * END * Global filter
 
 // * START * Columns filter
 //
-const applayColumnFilters = (rows = [], filteredRowIndexes = [], columnsFilter = []) => {
+const applayColumnFilters = (rows = [], columnsFilter = []) => {
   if (columnsFilter && columnsFilter.length) {
     try {
       const regExArray = columnsFilter.map(({ filterText }) => new RegExp(filterText.trim(), 'i'));
-      return filteredRowIndexes.filter(filteredIndex =>
-        columnsFilter.every(({ columnName }, index) =>
-          regExArray[index].test(
-            `${getCellValueAsString(rows[filteredIndex][columnName], columnName)}`
-          )
-        )
-      );
+      const filterFailed = row =>
+        !columnsFilter.every(({ columnName }, index) =>
+          regExArray[index].test(`${getCellValueAsString(row[columnName], columnName)}`)
+        );
+      return genereteSkippedList(rows, filterFailed);
     } catch (e) {
       // ignore
     }
   }
-  return filteredRowIndexes;
+  return [];
 };
 //
 // * END * Columns filter
@@ -92,6 +98,15 @@ const applayColumnSort = (rows = [], columnsSort = []) => {
 //
 // * END *  filter
 
+// * START * Join all sort & filter's selectors
+//
+const applayFiltersAndSort = (sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter) =>
+  sortedIndexes.filter(
+    index => !skippedByGlobalFilter.includes(index) && !skippedByColumnsFilter.includes(index)
+  );
+//
+// * END *  filter
+
 // * START * Selectors
 //
 // sort by columns
@@ -104,21 +119,26 @@ const rowsSortSelector = createSelector(
 // global filter
 const globalFilterSelector = createSelector(
   state => state.tableData.rows,
-  rowsSortSelector,
   state => state.tableData.globalFilter,
-  (rows, filteredRowIndexes, globalFilter) =>
-    applayGlobalFilter(rows, filteredRowIndexes, globalFilter)
+  (rows, globalFilter) => applayGlobalFilter(rows, globalFilter)
 );
 //
 // filter by columns
-const allFiltersSelector = createSelector(
+const columnsFilterSelector = createSelector(
   state => state.tableData.rows,
-  globalFilterSelector,
   state => state.tableData.columnsFilter,
-  (rows, filteredRowIndexes, columnsFilter) =>
-    applayColumnFilters(rows, filteredRowIndexes, columnsFilter)
+  (rows, columnsFilter) => applayColumnFilters(rows, columnsFilter)
+);
+//
+// global filter&sort selector
+const allFiltersAndSortSelector = createSelector(
+  rowsSortSelector,
+  globalFilterSelector,
+  columnsFilterSelector,
+  (sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter) =>
+    applayFiltersAndSort(sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter)
 );
 //
 // * END *  Selectors
 
-export default allFiltersSelector;
+export default allFiltersAndSortSelector;
