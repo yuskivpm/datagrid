@@ -11,46 +11,42 @@ import {
 } from '../utils/commonUtils';
 import { headers, types } from '../services/const';
 
-const TableContent = props => {
-  const {
-    columnOrder,
-    defaultFixedRowsColumnWidth,
-    filteredRowIndexes = [],
-    defaultRowHeight,
-    defaultHeaderRowHeight,
-    rows,
-    fixedColumnsCount,
-    onRemoveSelectedRows,
-    firstVisibleRow,
-    lastVisibleRow,
-    onRowsSelectionChange,
-    selectedRows,
-  } = props;
-
+const TableContent = ({
+  columnOrder,
+  defaultFixedRowsColumnWidth,
+  filteredRowIndexes = [],
+  defaultRowHeight,
+  defaultHeaderRowHeight,
+  rows,
+  fixedColumnsCount,
+  onRemoveSelectedRows,
+  firstVisibleRow,
+  lastVisibleRow,
+  onRowsSelectionChange,
+  selectedRows,
+}) => {
   let stikyOfs = defaultFixedRowsColumnWidth;
 
-  const fixedRowCell = (filteredRowIndex, index) => {
-    return (
-      <div
-        className="td stiky fix-num"
-        style={{
-          width: `${defaultFixedRowsColumnWidth}px`,
+  const fixedRowCell = (filteredRowIndex, index) => (
+    <div
+      className="td stiky fix-num"
+      style={{
+        width: `${defaultFixedRowsColumnWidth}px`,
+      }}
+      key={rows[filteredRowIndex].id}
+    >
+      <label htmlFor={`cb${index + firstVisibleRow + 1}`} className="p-checkbox-label">
+        {index + firstVisibleRow + 1}
+      </label>
+      <i
+        className="pi pi-trash"
+        onClick={event => {
+          event.stopPropagation();
+          onRemoveSelectedRows(selectedRows);
         }}
-        key={rows[filteredRowIndex].id}
-      >
-        <label htmlFor={`cb${index + firstVisibleRow + 1}`} className="p-checkbox-label">
-          {index + firstVisibleRow + 1}
-        </label>
-        <i
-          className="pi pi-trash"
-          onClick={event => {
-            event.stopPropagation();
-            onRemoveSelectedRows(selectedRows);
-          }}
-        />
-      </div>
-    );
-  };
+      />
+    </div>
+  );
 
   const createCell = (columnName, row, cellKey, classNamePref) => {
     const cell = row[columnName];

@@ -82,6 +82,7 @@ class Table extends React.Component {
     } = this.props;
     const { scrollTop, selectedRows } = this.state;
     const rowWidth = `${getTableWidth(columnOrder) + defaultFixedRowsColumnWidth}px`;
+
     let visibleRowCount;
     let firstVisibleRow;
     let lastVisibleRow;
@@ -108,7 +109,6 @@ class Table extends React.Component {
               width: rowWidth,
               height: `${defaultHeaderRowHeight + filteredRowIndexes.length * defaultRowHeight}px`,
             }}
-            position="relative"
           >
             {/* Header start */}
             <div
@@ -126,14 +126,12 @@ class Table extends React.Component {
               <ConnectForTableHeader />
             </div>
             {/* Header end */}
-            {/* Content start */}
             <ConnectForTableContent
               firstVisibleRow={firstVisibleRow}
               lastVisibleRow={lastVisibleRow}
               onRowsSelectionChange={this.onRowsSelectionChange}
               selectedRows={selectedRows}
             />
-            {/* Content end */}
           </div>
         </div>
       </div>

@@ -23,8 +23,8 @@ const applayGlobalFilter = (rows = [], globalFilter = '') => {
           filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
         );
       return genereteSkippedList(rows, filterFailed);
-    } catch (e) {
-      // ignore
+    } catch (_) {
+      // ignore it
     }
   }
   return [];
@@ -43,8 +43,8 @@ const applayColumnFilters = (rows = [], columnsFilter = []) => {
           regExArray[index].test(`${getCellValueAsString(row[columnName], columnName)}`)
         );
       return genereteSkippedList(rows, filterFailed);
-    } catch (e) {
-      // ignore
+    } catch (_) {
+      // ignore it
     }
   }
   return [];

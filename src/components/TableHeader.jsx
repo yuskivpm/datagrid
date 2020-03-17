@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-curly-newline, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MultiSelect } from 'primereact/multiselect';
@@ -9,21 +8,20 @@ import { getVisibleColumns } from '../utils/commonUtils';
 import { headers, types } from '../services/const';
 
 const sortText = ['pi-sort-amount-down', 'pi-sort-amount-down-alt', 'pi-sort-alt'];
-const SHOW_FILTER_VALUE = false; // to avoid eslint disable react/jsx-boolean-value
+const SHOW_FILTER_VALUE = false; // to avoid eslint react/jsx-boolean-value
 
-const TableHeader = props => {
-  const {
-    columnOrder,
-    fixedColumnsCount,
-    defaultHeaderRowHeight,
-    columnsSort,
-    onSortChange,
-    showFilters,
-    onChangeFiltersVisibility,
-    defaultFixedRowsColumnWidth,
-    onColumnFilterChange,
-    columnsFilter,
-  } = props;
+const TableHeader = ({
+  columnOrder,
+  fixedColumnsCount,
+  defaultHeaderRowHeight,
+  columnsSort,
+  onSortChange,
+  showFilters,
+  onChangeFiltersVisibility,
+  defaultFixedRowsColumnWidth,
+  onColumnFilterChange,
+  columnsFilter,
+}) => {
 
   let headerStikyOfs = defaultFixedRowsColumnWidth;
 

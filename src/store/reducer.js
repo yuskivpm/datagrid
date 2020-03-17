@@ -10,6 +10,7 @@ const defaultFetchTableData = {
   columnsSort: {},
   columnOrder: [],
   virtualization: true,
+  fixedColumnsCount: 1,
 };
 
 const getIndexByColumnName = (array, searchForColumnName) =>
@@ -24,6 +25,7 @@ const tableData = createReducer(defaultFetchTableData, {
       ...state,
       ...action.payload,
       tableLoaded: true,
+      allRowsCount: action.payload.rows.length,
     };
   },
   [actions.fetchTableDataError]: (state, action) => {
@@ -90,6 +92,12 @@ const tableData = createReducer(defaultFetchTableData, {
       columnName,
       isVisible: action.payload.includes(columnName),
     }));
+  },
+  [actions.changeFixedColumnsCount]: (state, action) => {
+    state.fixedColumnsCount = Math.max(0, parseInt(`0${action.payload}`));
+  },
+  [actions.changePossibleAllRowsCount]: (state, action) => {
+    state.allRowsCount = Math.max(0, parseInt(`0${action.payload}`));
   },
 });
 

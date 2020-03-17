@@ -48,6 +48,12 @@ export const removeSelectedRows = createAction(types.TABLE_REMOVE_ROWS);
 // change list of visible columns
 export const changeColumnList = createAction(types.TABLE_CHANGE_COLUMN_LIST);
 //
+// change count of fixed columns
+export const changeFixedColumnsCount = createAction(types.TABLE_CHANGE_FIXED_COLUMNS_COUNT);
+//
+// change count of fixed columns
+export const changePossibleAllRowsCount = createAction(types.TABLE_CHANGE_POSSIBLE_ALL_ROWS_COUNT);
+//
 // thunk action creator
 export function saveCsvTableData(filteredRowIndexes) {
   return function callback(_, getState) {

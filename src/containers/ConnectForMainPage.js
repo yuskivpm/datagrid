@@ -6,6 +6,8 @@ import {
   fetchTableData,
   fetchTableDataReceive,
   fetchTableDataError,
+  changeFixedColumnsCount,
+  changePossibleAllRowsCount,
 } from '../store/actions';
 import rowsSortAndFilterSelector from '../store/selectors';
 
@@ -17,6 +19,9 @@ const mapStateToProps = state => {
     columnsFilter,
     defaultRowHeight,
     virtualization = true,
+    fixedColumnsCount = 1,
+    columnOrder,
+    allRowsCount = 0,
   } = state.tableData;
   return {
     tableLoaded,
@@ -25,13 +30,18 @@ const mapStateToProps = state => {
     columnsFilter,
     defaultRowHeight,
     virtualization,
+    fixedColumnsCount,
+    columnOrder,
     filteredRowsCount: rowsSortAndFilterSelector(state).length,
+    allRowsCount,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   onGlobalFilterChange: searchText => dispatch(tableGlobalFilter(searchText)),
   onChangeTableVirtualization: () => dispatch(changeTableVirtualization()),
+  onFixedColumnsCountChange: newFixedColumnsCount => dispatch(changeFixedColumnsCount(newFixedColumnsCount)),
+  onChangePossibleAllRowsCount: newAllRowsCount => dispatch(changePossibleAllRowsCount(newAllRowsCount)),
   onNeedFetch: (rowCount, loadUiConst) =>
     dispatch(
       fetchTableData(rowCount, loadUiConst, (data, error) =>

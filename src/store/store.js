@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import tableData from './reducer';
 import { loadState, saveState } from '../utils/localState';
+import { prepareFiltersFromUrl } from '../utils/urlEncoder';
 
 const getPresets = (loadedState, locationHistory) => {
   // to avoid linter error "not nestet ternary" ((
@@ -13,7 +14,8 @@ const getPresets = (loadedState, locationHistory) => {
   return loadedState;
 };
 
-const getStore = locationHistory => {
+const getStore = location => {
+  const locationHistory = prepareFiltersFromUrl(location.search)
   const loadedState = loadState();
   let preloadedState;
   if (loadedState || locationHistory) {
@@ -23,6 +25,7 @@ const getStore = locationHistory => {
       columnsFilter: [],
       columnsSort: {},
       columnOrder: [],
+      virtualization: true,
     };
     preloadedState = {
       tableData: {

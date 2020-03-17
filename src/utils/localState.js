@@ -9,20 +9,20 @@ export const loadState = () => {
       return undefined;
     }
     return checkAndCorrectStateValues(JSON.parse(localData));
-  } catch (e) {
+  } catch (_) {
     return undefined;
   }
 };
 
 export const saveState = ({
-  tableData: { globalFilter, columnsFilter, columnsSort, columnOrder, showFilters },
+  tableData: { globalFilter, columnsFilter, columnsSort, columnOrder, showFilters, fixedColumnsCount },
 }) => {
   try {
     localStorage.setItem(
       localStorageItemName,
-      JSON.stringify({ globalFilter, columnsFilter, columnsSort, columnOrder, showFilters })
+      JSON.stringify({ globalFilter, columnsFilter, columnsSort, columnOrder, showFilters, fixedColumnsCount })
     );
-  } catch (e) {
-    // ignore
+  } catch (_) {
+    // ignore it
   }
 };

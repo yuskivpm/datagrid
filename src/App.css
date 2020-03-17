@@ -27,15 +27,17 @@ header {
   padding: 1.5rem;
   border-bottom: 1px solid black;
   align-items: baseline;
+  justify-content: space-between;
 }
 
-header .p-button.p-togglebutton, header .p-button {
-  margin-right: 2rem;
+header .p-button.p-togglebutton, header .p-button, .sliders, #float-input {
+  margin-right: 5px;
 }
 
+/*
 header .p-button {
   margin-left: 2rem;
-}
+} */
 
 main {
   flex: 1;

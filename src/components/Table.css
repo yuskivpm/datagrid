@@ -20,6 +20,10 @@
   overflow: auto;
 }
 
+.container {
+  position: relative;
+}
+
 .tr {
   display: flex;
   flex-wrap: nowrap;
@@ -37,8 +41,7 @@
   vertical-align: sub;
 }
 
-.tr.selected-row .td.value,
-.tr.selected-row .fix-num {
+.tr.selected-row .td.value, .tr.selected-row .fix-num {
   background-color: aqua !important;
   color: black;
 }
@@ -47,8 +50,7 @@
   position: absolute;
 }
 
-.th,
-.td.fix-num {
+.th, .td.fix-num {
   background-color: green;
   color: white;
 }
@@ -64,8 +66,7 @@
   padding: 3px;
 }
 
-.th input,
-.th .p-multiselect {
+.th input, .th .p-multiselect {
   display: block;
   width: 100%;
 }
@@ -79,15 +80,13 @@
   flex-grow: 1;
 }
 
-.th.stiky,
-.td.fix-num {
+.th.stiky, .td.fix-num {
   position: sticky;
   left: 0;
   z-index: 1;
 }
 
-.td,
-.th {
+.td, .th {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -114,9 +113,7 @@ ul.p-multiselect-items li.p-multiselect-item div.p-checkbox.p-component {
   display: none;
 }
 
-.pi.pi-filter,
-.pi-sort-amount-down,
-.pi-sort-amount-down-alt {
+.pi.pi-filter, .pi-sort-amount-down, .pi-sort-amount-down-alt {
   color: aqua;
 }
 
