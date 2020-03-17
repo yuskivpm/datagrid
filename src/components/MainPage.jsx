@@ -4,13 +4,13 @@ import { InputText } from 'primereact/inputtext';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
 import { Growl } from 'primereact/growl';
-import ConnectForTable from '../containers/ConnectForTableNew';
+import ConnectForTable from '../containers/ConnectForTable';
 import spinner from '../assets/spinner.svg';
 import { generateUrl } from '../utils/urlEncoder';
 
 const ROW_COUNT = 2000;
 
-class PureMainPage extends React.Component {
+class MainPage extends React.Component {
   showSticky = () => {
     const { globalFilter, columnsFilter } = this.props;
     this.growl.show({
@@ -85,7 +85,7 @@ class PureMainPage extends React.Component {
               <b>{filteredRowsCount}</b>
             </p>
           </header>
-          <ConnectForTable defaultMenuText="Columns" saveToCsvButtonCaption="Save to csv" />
+          <ConnectForTable />
         </>
       );
       /* eslint-enable jsx-a11y/label-has-associated-control */
@@ -97,7 +97,7 @@ class PureMainPage extends React.Component {
   }
 }
 
-PureMainPage.propTypes = {
+MainPage.propTypes = {
   tableLoaded: PropTypes.bool,
   error: PropTypes.string,
   globalFilter: PropTypes.string,
@@ -110,11 +110,11 @@ PureMainPage.propTypes = {
   columnsFilter: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-PureMainPage.defaultProps = {
+MainPage.defaultProps = {
   tableLoaded: undefined,
   defaultRowHeight: undefined,
   error: '',
   globalFilter: '',
 };
 
-export default PureMainPage;
+export default MainPage;

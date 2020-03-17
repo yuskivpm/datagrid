@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import PureMainPage from '../components/PureMainPage';
+import MainPage from '../components/MainPage';
 import {
   tableGlobalFilter,
   changeTableVirtualization,
@@ -40,4 +40,4 @@ const mapDispatchToProps = dispatch => ({
     ),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PureMainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
