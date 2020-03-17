@@ -34,11 +34,6 @@ header .p-button.p-togglebutton, header .p-button, .sliders, #float-input {
   margin-right: 5px;
 }
 
-/*
-header .p-button {
-  margin-left: 2rem;
-} */
-
 main {
   flex: 1;
   overflow: hidden;

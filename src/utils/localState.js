@@ -15,12 +15,26 @@ export const loadState = () => {
 };
 
 export const saveState = ({
-  tableData: { globalFilter, columnsFilter, columnsSort, columnOrder, showFilters, fixedColumnsCount },
+  tableData: {
+    globalFilter,
+    columnsFilter,
+    columnsSort,
+    columnOrder,
+    showFilters,
+    fixedColumnsCount,
+  },
 }) => {
   try {
     localStorage.setItem(
       localStorageItemName,
-      JSON.stringify({ globalFilter, columnsFilter, columnsSort, columnOrder, showFilters, fixedColumnsCount })
+      JSON.stringify({
+        globalFilter,
+        columnsFilter,
+        columnsSort,
+        columnOrder,
+        showFilters,
+        fixedColumnsCount,
+      })
     );
   } catch (_) {
     // ignore it

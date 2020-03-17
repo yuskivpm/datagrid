@@ -15,7 +15,7 @@ const getPresets = (loadedState, locationHistory) => {
 };
 
 const getStore = location => {
-  const locationHistory = prepareFiltersFromUrl(location.search)
+  const locationHistory = prepareFiltersFromUrl(location.search);
   const loadedState = loadState();
   let preloadedState;
   if (loadedState || locationHistory) {

@@ -127,4 +127,4 @@ export const checkAndCorrectStateValues = oldState => {
   return state;
 };
 
-export const convertToNumber = text => parseInt(`0${text}`);
+export const convertToNumber = text => parseInt(`0${text}`, 10);

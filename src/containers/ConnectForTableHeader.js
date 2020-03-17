@@ -2,15 +2,17 @@ import { connect } from 'react-redux';
 import TableHeader from '../components/TableHeader';
 import * as actions from '../store/actions';
 
-const mapStateToProps = ({ tableData: {
-  columnOrder = [],
-  fixedColumnsCount,
-  defaultHeaderRowHeight,
-  columnsSort = {},
-  showFilters = false,
-  defaultFixedRowsColumnWidth,
-  columnsFilter = [],
-} }) => ({
+const mapStateToProps = ({
+  tableData: {
+    columnOrder = [],
+    fixedColumnsCount,
+    defaultHeaderRowHeight,
+    columnsSort = {},
+    showFilters = false,
+    defaultFixedRowsColumnWidth,
+    columnsFilter = [],
+  },
+}) => ({
   columnOrder,
   fixedColumnsCount,
   defaultHeaderRowHeight,

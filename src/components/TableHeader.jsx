@@ -22,7 +22,6 @@ const TableHeader = ({
   onColumnFilterChange,
   columnsFilter,
 }) => {
-
   let headerStikyOfs = defaultFixedRowsColumnWidth;
 
   const getSortType = forColumnName => {

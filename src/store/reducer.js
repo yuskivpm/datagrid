@@ -2,6 +2,7 @@
 // because createReducer allow using "mutation" of params, by creating a special proxi objects
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
+import { convertToNumber } from '../utils/commonUtils';
 
 const defaultFetchTableData = {
   rows: [],
@@ -94,10 +95,7 @@ const tableData = createReducer(defaultFetchTableData, {
     }));
   },
   [actions.changeFixedColumnsCount]: (state, action) => {
-    state.fixedColumnsCount = Math.max(0, parseInt(`0${action.payload}`));
-  },
-  [actions.changePossibleAllRowsCount]: (state, action) => {
-    state.allRowsCount = Math.max(0, parseInt(`0${action.payload}`));
+    state.fixedColumnsCount = Math.max(0, convertToNumber(action.payload));
   },
 });
 

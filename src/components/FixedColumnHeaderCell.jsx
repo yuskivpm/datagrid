@@ -20,30 +20,30 @@ const FixedColumnHeaderCell = ({
   onChangeColumnList,
   onSaveCsv,
 }) => (
-    <div
-      className="th stiky fix-num"
-      style={{
-        height: `${defaultHeaderRowHeight}px`,
-        width: `${defaultFixedRowsColumnWidth}px`,
-        flex: `0 0 ${defaultFixedRowsColumnWidth}px`,
-      }}
-    >
-      <Button
-        label={saveToCsvButtonCaption}
-        tooltip={buttonTooltip}
-        onClick={() => onSaveCsv(filteredRowIndexes)}
-      />
-      <MultiSelect
-        value={columnOrder.filter(({ isVisible }) => isVisible).map(({ columnName }) => columnName)}
-        options={optionsMenu}
-        placeholder={defaultMenuText}
-        filter={false}
-        maxSelectedLabels={0}
-        selectedItemsLabel={defaultMenuText}
-        onChange={event => onChangeColumnList(event.value)}
-      />
-    </div>
-  );
+  <div
+    className="th stiky fix-num"
+    style={{
+      height: `${defaultHeaderRowHeight}px`,
+      width: `${defaultFixedRowsColumnWidth}px`,
+      flex: `0 0 ${defaultFixedRowsColumnWidth}px`,
+    }}
+  >
+    <Button
+      label={saveToCsvButtonCaption}
+      tooltip={buttonTooltip}
+      onClick={() => onSaveCsv(filteredRowIndexes)}
+    />
+    <MultiSelect
+      value={columnOrder.filter(({ isVisible }) => isVisible).map(({ columnName }) => columnName)}
+      options={optionsMenu}
+      placeholder={defaultMenuText}
+      filter={false}
+      maxSelectedLabels={0}
+      selectedItemsLabel={defaultMenuText}
+      onChange={event => onChangeColumnList(event.value)}
+    />
+  </div>
+);
 
 FixedColumnHeaderCell.propTypes = {
   defaultMenuText: PropTypes.string,

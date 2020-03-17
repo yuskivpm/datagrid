@@ -8,13 +8,19 @@ import { Growl } from 'primereact/growl';
 import ConnectForTable from '../containers/ConnectForTable';
 import spinner from '../assets/spinner.svg';
 import { generateUrl } from '../utils/urlEncoder';
+import { convertToNumber } from '../utils/commonUtils';
 
 const DEFAULT_ROW_COUNT = 1100;
-const WARNING_ROW_COUNT = 5000;
+const WARNING_ROW_COUNT = 2000;
 const MAX_ROW_COUNT = 10000;
 const FIXED_COLUMNS_WIDTH_STYLE = { width: '8em' };
 
 class MainPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   showSticky = () => {
     const { globalFilter, columnsFilter } = this.props;
     this.growl.show({
@@ -27,7 +33,10 @@ class MainPage extends React.Component {
 
   handleGrowl = el => {
     this.growl = el;
-  }
+  };
+
+  onChangePossibleAllRowsCount = allRowsCount =>
+    this.setState({ allRowsCount: convertToNumber(allRowsCount) });
 
   render() {
     const { error } = this.props;
@@ -50,18 +59,16 @@ class MainPage extends React.Component {
         onChangeTableVirtualization,
         fixedColumnsCount,
         onFixedColumnsCountChange,
-        onChangePossibleAllRowsCount,
         columnOrder,
-        allRowsCount,
+        currentAllRowsCount,
       } = this.props;
-
-      /* eslint-disable jsx-a11y/label-has-associated-control */ // <- Primereact need it
+      const { allRowsCount = currentAllRowsCount } = this.state;
+      /* eslint-disable jsx-a11y/label-has-associated-control */
+      // Primereact need it
       return (
         <>
           <header>
-            <Growl
-              ref={this.handleGrowl}
-            />
+            <Growl ref={this.handleGrowl} />
             <ToggleButton
               onLabel="Turbo ON"
               offLabel="Turbo OFF"
@@ -104,7 +111,7 @@ class MainPage extends React.Component {
               <Slider
                 value={fixedColumnsCount}
                 min={0}
-                max={columnOrder.length - 1}
+                max={Math.min(4, columnOrder.length - 1)}
                 style={FIXED_COLUMNS_WIDTH_STYLE}
                 onChange={e => onFixedColumnsCountChange(e.value)}
               />
@@ -116,8 +123,10 @@ class MainPage extends React.Component {
                   type="number"
                   style={FIXED_COLUMNS_WIDTH_STYLE}
                   value={allRowsCount}
-                  tooltip={allRowsCount > WARNING_ROW_COUNT ? 'Avoid to turn off virtualization' : ''}
-                  onChange={e => onChangePossibleAllRowsCount(e.target.value)}
+                  tooltip={
+                    allRowsCount >= WARNING_ROW_COUNT ? 'Avoid to turn off virtualization' : ''
+                  }
+                  onChange={e => this.onChangePossibleAllRowsCount(e.target.value)}
                 />
                 <label htmlFor="all-rows-count">Rows count</label>
               </span>
@@ -126,12 +135,16 @@ class MainPage extends React.Component {
                 min={0}
                 max={MAX_ROW_COUNT}
                 style={FIXED_COLUMNS_WIDTH_STYLE}
-                onChange={e => onChangePossibleAllRowsCount(e.value)}
+                onChange={e => this.onChangePossibleAllRowsCount(e.value)}
               />
             </div>
             <Button
               label="Fetch new data"
-              tooltip="Generate new table"
+              tooltip={
+                allRowsCount >= WARNING_ROW_COUNT
+                  ? 'Avoid to turn off virtualization'
+                  : 'Generate new table'
+              }
               onClick={() => onNeedFetch(allRowsCount, false)}
             />
             <p>
@@ -160,13 +173,13 @@ MainPage.propTypes = {
   virtualization: PropTypes.bool.isRequired,
   onGlobalFilterChange: PropTypes.func.isRequired,
   onChangeTableVirtualization: PropTypes.func.isRequired,
+  onFixedColumnsCountChange: PropTypes.func.isRequired,
   onNeedFetch: PropTypes.func.isRequired,
-  onChangePossibleAllRowsCount: PropTypes.func.isRequired,
   defaultRowHeight: PropTypes.number,
   filteredRowsCount: PropTypes.number.isRequired,
   columnsFilter: PropTypes.arrayOf(PropTypes.object).isRequired,
   fixedColumnsCount: PropTypes.number,
-  allRowsCount: PropTypes.number,
+  currentAllRowsCount: PropTypes.number,
   columnOrder: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -176,7 +189,7 @@ MainPage.defaultProps = {
   error: '',
   globalFilter: '',
   fixedColumnsCount: 1,
-  allRowsCount: 0,
+  currentAllRowsCount: 0,
 };
 
 export default MainPage;
