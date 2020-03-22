@@ -58,13 +58,10 @@ export default function serverRequest(
       serverRequest(localRecordsCount, loadUiConst, onFinishFetching, fakerSeed, rows)
     );
   } else {
-    let result = { rows };
+    let result = { rows, defaultFixedRowsColumnWidth, defaultHeaderRowHeight, defaultRowHeight };
     if (loadUiConst) {
       result = Object.assign(result, {
         columnOrder: Object.keys(headers).map(columnName => ({ columnName, isVisible: true })),
-        defaultFixedRowsColumnWidth,
-        defaultHeaderRowHeight,
-        defaultRowHeight,
       });
     }
     onFinishFetching(result);

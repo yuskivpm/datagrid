@@ -23,8 +23,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onRemoveSelectedRows: selectedRows => dispatch(actions.removeSelectedRows(selectedRows)),
-});
+const mapDispatchToProps = { onRemoveSelectedRows: actions.removeSelectedRows };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableContent);

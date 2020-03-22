@@ -159,8 +159,8 @@ class MainPage extends React.Component {
     }
 
     if (typeof tableLoaded === 'undefined') {
-      const { defaultRowHeight } = this.props;
-      onNeedFetch(DEFAULT_ROW_COUNT, typeof defaultRowHeight === 'undefined');
+      const { columnOrder } = this.props;
+      onNeedFetch(DEFAULT_ROW_COUNT, columnOrder.length === 0);
     }
     return <img src={spinner} className="table-spinner" alt="Waiting for the requested data" />;
   }
@@ -175,7 +175,6 @@ MainPage.propTypes = {
   onChangeTableVirtualization: PropTypes.func.isRequired,
   onFixedColumnsCountChange: PropTypes.func.isRequired,
   onNeedFetch: PropTypes.func.isRequired,
-  defaultRowHeight: PropTypes.number,
   filteredRowsCount: PropTypes.number.isRequired,
   columnsFilter: PropTypes.arrayOf(PropTypes.object).isRequired,
   fixedColumnsCount: PropTypes.number,
@@ -185,7 +184,6 @@ MainPage.propTypes = {
 
 MainPage.defaultProps = {
   tableLoaded: undefined,
-  defaultRowHeight: undefined,
   error: '',
   globalFilter: '',
   fixedColumnsCount: 1,

@@ -111,9 +111,11 @@ export const checkAndCorrectStateValues = oldState => {
   }
   // remove incorrect values from columnsSort
   if (state.columnsSort) {
-    state.columnsSort = correctColumnSort(
-      Array.isArray(state.columnsSort) ? state.columnsSort : [state.columnsSort]
-    );
+    if (Array.isArray(state.columnsSort)) {
+      state.columnsSort = correctColumnSort(state.columnsSort);
+    } else if (state.columnsSort.columnName) {
+      state.columnsSort = correctColumnSort([state.columnsSort]);
+    }
     switch (state.columnsSort.length) {
       case 0:
         state.columnsSort = {};

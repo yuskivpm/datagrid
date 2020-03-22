@@ -22,11 +22,10 @@ const mapStateToProps = ({
   columnsFilter,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSortChange: (columnName, isSingle) => dispatch(actions.tableSort({ columnName, isSingle })),
-  onChangeFiltersVisibility: () => dispatch(actions.changeFiltersVisibility()),
-  onColumnFilterChange: (columnName, filterText) =>
-    dispatch(actions.tableColumnFilter({ columnName, filterText })),
-});
+const mapDispatchToProps = {
+  onSortChange: actions.tableSort,
+  onChangeFiltersVisibility: actions.changeFiltersVisibility,
+  onColumnFilterChange: actions.tableColumnFilter,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableHeader);

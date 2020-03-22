@@ -54,9 +54,9 @@ const TableHeader = ({
   const getLists = (curColumnHeader, columnName) =>
     Array.isArray(curColumnHeader.values)
       ? {
-        list: curColumnHeader.values.map(value => ({ label: value, value })),
-        value: getFilterText(columnName),
-      }
+          list: curColumnHeader.values.map(value => ({ label: value, value })),
+          value: getFilterText(columnName),
+        }
       : {};
 
   const getFilterInput = columnName => {
@@ -68,7 +68,7 @@ const TableHeader = ({
           <SelectButton
             value={value}
             options={list}
-            onChange={event => onColumnFilterChange(columnName, event.value)}
+            onChange={event => onColumnFilterChange({ columnName, filterText: event.value })}
           />
         );
       case types.ENUM:
@@ -78,10 +78,10 @@ const TableHeader = ({
             options={list}
             filter={SHOW_FILTER_VALUE}
             onChange={event =>
-              onColumnFilterChange(
+              onColumnFilterChange({
                 columnName,
-                event.value.length ? `(${event.value.join('|')})` : ''
-              )
+                filterText: event.value.length ? `(${event.value.join('|')})` : '',
+              })
             }
           />
         );
@@ -90,7 +90,7 @@ const TableHeader = ({
           <InputText
             type="text"
             value={getFilterText(columnName)}
-            onChange={event => onColumnFilterChange(columnName, event.target.value)}
+            onChange={event => onColumnFilterChange({ columnName, filterText: event.target.value })}
           />
         );
     }
@@ -112,7 +112,9 @@ const TableHeader = ({
       >
         <div
           className="th-filter"
-          onClick={event => onSortChange(columnName, !(event.shiftKey || event.ctrlKey))}
+          onClick={event =>
+            onSortChange({ columnName, isSingle: !(event.shiftKey || event.ctrlKey) })
+          }
         >
           {curColumn.displayName}
           <div className="hd-buttons">
@@ -121,8 +123,7 @@ const TableHeader = ({
                 getFilterText(columnName)
                   ? 'pi-filter'
                   : `pi-search-${showFilters ? 'minus' : 'plus'}`
-                }`
-              }
+              }`}
               onClick={event => {
                 event.stopPropagation();
                 onChangeFiltersVisibility();

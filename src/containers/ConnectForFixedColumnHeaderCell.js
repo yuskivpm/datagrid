@@ -13,9 +13,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onChangeColumnList: selectedColumns => dispatch(actions.changeColumnList(selectedColumns)),
-  onSaveCsv: filteredRowIndexes => dispatch(actions.saveCsvTableData(filteredRowIndexes)),
-});
+const mapDispatchToProps = {
+  onChangeColumnList: actions.changeColumnList,
+  onSaveCsv: actions.saveCsvTableData,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixedColumnHeaderCell);
