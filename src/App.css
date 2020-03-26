@@ -1,0 +1,46 @@
+html, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
+.App {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.table-spinner {
+  height: 90vh;
+  margin: auto;
+}
+
+header {
+  flex-grow: 0;
+  background: white;
+  padding-left: 10px;
+  display: flex;
+  padding: 1.5rem;
+  border-bottom: 1px solid black;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+header .p-button.p-togglebutton, header .p-button, .sliders, #float-input {
+  margin-right: 5px;
+}
+
+main {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.p-growl {
+  position: fixed;
+  width: 50em;
+}

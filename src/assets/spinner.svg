@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <style>
+        .spinner {
+          display: block;
+          width: 400px;
+          max-width: 100%;
+          margin: auto;
+          -webkit-animation: rotateSpinner 1.5s infinite linear;
+                  animation: rotateSpinner 1.5s infinite linear;
+          stroke-linecap: round;
+          -webkit-transform-origin: center;
+                  transform-origin: center;
+        }
+
+        .spinner path{
+          fill: none;
+          stroke-width: 6px;
+        }
+
+        .circle-segment-1 {
+          stroke: cyan;
+        }
+
+        .circle-segment-2 {
+          stroke: magenta;
+        }
+
+        .circle-segment-3 {
+          stroke: yellow;
+        }
+
+        .circle-segment-4 {
+          stroke: black;
+        }
+
+        @-webkit-keyframes rotateSpinner {
+          to {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+          }
+        }
+
+        @keyframes rotateSpinner {
+          to {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+          }
+        }
+    </style>
+    <g class="spinner" >
+        <path class="circle-segment-1" d="M97 50a47 47 0 0 1-47 47"/>
+        <path class="circle-segment-2" d="M50 3a47 47 0 0 1 47 47"/>
+        <path class="circle-segment-3" d="M3 50A47 47 0 0 1 50 3"/>
+        <path class="circle-segment-4" d="M50 97A47 47 0 0 1 3 50"/>
+    </g>
+</svg>
