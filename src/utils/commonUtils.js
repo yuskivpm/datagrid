@@ -84,7 +84,7 @@ const correctColumnsFilters = columnsFilter =>
     })
     .filter(({ filterText }) => filterText);
 
-// Fix column order list (invalid case in column names, deleting non-existent namess)
+// Fix column order list (invalid case in column names, deleting non-existent names)
 const correctColumns = columnOrder =>
   columnOrder
     .map(colObject => ({
@@ -100,7 +100,7 @@ const correctColumnSort = columnSortAsArray =>
 
 export const checkAndCorrectStateValues = oldState => {
   lowerCaseHeaders = new Map(Object.keys(headers).map(key => [key.toLowerCase(), key]));
-  const state = { ...oldState }; // to avoid eslint no-param-reassign
+  const state = { ...oldState }; // eslint no-param-reassign
   // remove incorrect values from columnsFilter
   if (state.columnsFilter) {
     state.columnsFilter = correctColumnsFilters(state.columnsFilter);
@@ -121,7 +121,7 @@ export const checkAndCorrectStateValues = oldState => {
         state.columnsSort = {};
         break;
       case 1:
-        [state.columnsSort] = state.columnsSort; // to avoid eslint prefer-destructuring
+        [state.columnsSort] = state.columnsSort; // eslint prefer-destructuring
         break;
       default:
     }

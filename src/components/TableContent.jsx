@@ -25,11 +25,11 @@ const TableContent = ({
   onRowsSelectionChange,
   selectedRows,
 }) => {
-  let stikyOfs = defaultFixedRowsColumnWidth;
+  let stickyOfs = defaultFixedRowsColumnWidth;
 
   const fixedRowCell = (filteredRowIndex, index) => (
     <div
-      className="td stiky fix-num"
+      className="td sticky fix-num"
       style={{
         width: `${defaultFixedRowsColumnWidth}px`,
       }}
@@ -51,7 +51,7 @@ const TableContent = ({
   const createCell = (columnName, row, cellKey, classNamePref) => {
     const cell = row[columnName];
     const curColumnHeader = headers[columnName];
-    stikyOfs += curColumnHeader.colWidth;
+    stickyOfs += curColumnHeader.colWidth;
     let cellValue;
     switch (curColumnHeader.type) {
       case types.BOOLEAN:
@@ -72,7 +72,7 @@ const TableContent = ({
         className={`td value ${curColumnHeader.type} ${classNamePref}`}
         style={{
           width: `${curColumnHeader.colWidth}px`,
-          left: `${stikyOfs - curColumnHeader.colWidth}px`,
+          left: `${stickyOfs - curColumnHeader.colWidth}px`,
         }}
       >
         {`${cellValue}`}
@@ -90,14 +90,13 @@ const TableContent = ({
           const isSelected = isCheckedRow(rows, selectedRows, filteredRowIndex)
             ? 'selected-row'
             : '';
-          stikyOfs = defaultFixedRowsColumnWidth;
+          stickyOfs = defaultFixedRowsColumnWidth;
           return (
             <div
               key={rows[filteredRowIndex].id}
               className={`tr content ${isSelected} ${
                 (firstVisibleRow + index) & 1 ? 'odd' : 'even'
-                }`
-              }
+              }`}
               style={{
                 width: `${getTableWidth(columnOrder) + defaultFixedRowsColumnWidth}px`,
                 height: `${defaultRowHeight}px`,
@@ -113,7 +112,7 @@ const TableContent = ({
                   columnName,
                   rows[filteredRowIndex],
                   `${rows[filteredRowIndex].id}.${columnIndex}`,
-                  `${fixedColumnsCount > columnIndex ? ' stiky' : ''}`
+                  `${fixedColumnsCount > columnIndex ? ' sticky' : ''}`
                 )
               )}
             </div>

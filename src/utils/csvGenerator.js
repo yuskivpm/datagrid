@@ -38,15 +38,13 @@ const getBodyRow = (columnOrderNames, row) =>
     )
   );
 
-const getBody = (filteredRowIndexdata, columnOrderNames, rows) =>
-  filteredRowIndexdata.map(filteredRowIndex =>
-    getBodyRow(columnOrderNames, rows[filteredRowIndex])
-  );
+const getBody = (filteredRowIndexes, columnOrderNames, rows) =>
+  filteredRowIndexes.map(filteredRowIndex => getBodyRow(columnOrderNames, rows[filteredRowIndex]));
 
-export const prepareAndSaveCsvFile = (columnOrder, rows, filteredRowIndexdata) => {
+export const prepareAndSaveCsvFile = (columnOrder, rows, filteredRowIndexes) => {
   const columnOrderNames = getVisibleColumns(columnOrder).map(({ columnName }) => columnName);
   saveFileAs(
-    [...getHead(columnOrderNames), ...getBody(filteredRowIndexdata, columnOrderNames, rows)],
+    [...getHead(columnOrderNames), ...getBody(filteredRowIndexes, columnOrderNames, rows)],
     'data.csv',
     'text/csv'
   );

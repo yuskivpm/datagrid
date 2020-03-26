@@ -40,13 +40,12 @@ class Table extends React.Component {
           firstSelected = -1;
         }
         if (firstSelected >= 0) {
-          // to avoid eslint no-bitwise
           // known start of the selection list - second click
           const startRange = Math.min(realRowIndex, firstSelected);
           const endRange = Math.max(realRowIndex, firstSelected);
           const idOfUnselectedRows = filteredRowIndexes
             .filter((_, rowIndex) => rowIndex >= startRange && rowIndex <= endRange) // get real indexes of rows in selected range
-            .map(filtredIndex => rows[filtredIndex].id);
+            .map(filteredIndex => rows[filteredIndex].id);
           if (selectedRows.includes(rows[filteredRowIndexes[firstSelected]].id)) {
             idOfUnselectedRows.forEach(id => {
               if (!selectedRows.includes(id)) {
@@ -112,7 +111,7 @@ class Table extends React.Component {
           >
             {/* Header start */}
             <div
-              className="tr stiky"
+              className="tr sticky"
               style={{
                 width: rowWidth,
                 height: `${defaultHeaderRowHeight}px`,

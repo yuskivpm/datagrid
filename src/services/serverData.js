@@ -43,7 +43,7 @@ export default function serverRequest(
   fakerSeed,
   localRows = []
 ) {
-  if (fakerSeed) {
+  if (fakerSeed && !localRows.length) {
     faker.seed(fakerSeed);
   }
   const curIterationRowCount = Math.min(MAX_ROW_IN_ITERATION, recordsCount);

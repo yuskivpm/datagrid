@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-// because createReducer allow using "mutation" of params, by creating a special proxi objects
+// because createReducer allow using "mutation" of params, by creating a special proxy objects
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
 import { convertToNumber } from '../utils/commonUtils';
@@ -41,7 +41,6 @@ const tableData = createReducer(defaultFetchTableData, {
     const indexInList = getIndexByColumnName(state.columnsFilter, action.payload.columnName);
     if (filterValue) {
       if (indexInList >= 0) {
-        // to avoid eslint no-bitwise
         state.columnsFilter[indexInList].filterText = filterValue;
       } else {
         state.columnsFilter.push({
@@ -50,7 +49,6 @@ const tableData = createReducer(defaultFetchTableData, {
         });
       }
     } else if (indexInList >= 0) {
-      // to avoid eslint no-bitwise
       // remove filter if empty string
       state.columnsFilter.splice(indexInList, 1);
     }
@@ -72,7 +70,6 @@ const tableData = createReducer(defaultFetchTableData, {
     } else {
       const indexInList = getIndexByColumnName(state.columnsSort, action.payload.columnName);
       if (indexInList >= 0) {
-        // to avoid eslint no-bitwise
         state.columnsSort[indexInList].isAscending = !state.columnsSort[indexInList].isAscending;
       } else {
         state.columnsSort.push(defSort);

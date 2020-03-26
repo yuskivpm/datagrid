@@ -21,7 +21,7 @@ const FixedColumnHeaderCell = ({
   onSaveCsv,
 }) => (
   <div
-    className="th stiky fix-num"
+    className="th sticky fix-num"
     style={{
       height: `${defaultHeaderRowHeight}px`,
       width: `${defaultFixedRowsColumnWidth}px`,

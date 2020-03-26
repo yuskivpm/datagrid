@@ -1,10 +1,11 @@
+/* eslint-disable no-restricted-globals */
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import tableData from './reducer';
 import { loadState, saveState } from '../utils/localState';
 import { prepareFiltersFromUrl } from '../utils/urlEncoder';
 
 const getPresets = (loadedState, locationHistory) => {
-  // to avoid linter error "not nestet ternary" ((
+  // to avoid linter error "not nested ternary" ((
   if (!loadedState) {
     return locationHistory;
   }
@@ -14,8 +15,8 @@ const getPresets = (loadedState, locationHistory) => {
   return loadedState;
 };
 
-const getStore = location => {
-  const locationHistory = prepareFiltersFromUrl(location.search);
+const getStore = () => {
+  const locationHistory = prepareFiltersFromUrl((location && location.search) || '');
   const loadedState = loadState();
   let preloadedState;
   if (loadedState || locationHistory) {

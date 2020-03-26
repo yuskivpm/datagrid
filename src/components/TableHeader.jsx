@@ -22,14 +22,14 @@ const TableHeader = ({
   onColumnFilterChange,
   columnsFilter,
 }) => {
-  let headerStikyOfs = defaultFixedRowsColumnWidth;
+  let headerStickyOfs = defaultFixedRowsColumnWidth;
 
   const getSortType = forColumnName => {
     // desc, asc, none
     let result = 2;
     let index = '';
     if (Array.isArray(columnsSort)) {
-      // multy sort - array of sort objects
+      // multi sort - array of sort objects
       index = columnsSort.findIndex(({ columnName }) => columnName === forColumnName);
       if (index >= 0) {
         // to avoid eslint no-bitwise
@@ -96,15 +96,15 @@ const TableHeader = ({
     }
   };
 
-  const createTh = (columnName, isStiky) => {
+  const createTh = (columnName, isSticky) => {
     const sortType = getSortType(columnName);
     const curColumn = headers[columnName];
-    headerStikyOfs += curColumn.colWidth;
+    headerStickyOfs += curColumn.colWidth;
     return (
       <div
-        className={`th ${isStiky ? ' stiky' : ''}`}
+        className={`th ${isSticky ? ' sticky' : ''}`}
         style={{
-          left: `${headerStikyOfs - curColumn.colWidth}px`,
+          left: `${headerStickyOfs - curColumn.colWidth}px`,
           width: `${curColumn.colWidth}px`,
           height: `${defaultHeaderRowHeight}px`,
         }}

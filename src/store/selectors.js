@@ -4,56 +4,14 @@ import { headers, types } from '../services/const';
 
 const getDefaultIndexesArray = rowsCount => [...Array(rowsCount)].map((_, index) => index);
 
-const genereteSkippedList = (rows, filterFailed) =>
+const getIgnoredIndexes = (rows, ignoreIt) =>
   rows.reduce((skippedIndexesList, row, index) => {
-    if (filterFailed(row)) {
+    if (ignoreIt(row)) {
       skippedIndexesList.push(index);
     }
     return skippedIndexesList;
   }, []);
 
-// * START * Global filter
-//
-const applayGlobalFilter = (rows = [], globalFilter = '') => {
-  if (globalFilter) {
-    try {
-      const filterRegex = new RegExp(globalFilter.trim(), 'i');
-      const filterFailed = row =>
-        !Object.entries(row).find(([columnName, cellValue]) =>
-          filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
-        );
-      return genereteSkippedList(rows, filterFailed);
-    } catch (_) {
-      // ignore it
-    }
-  }
-  return [];
-};
-//
-// * END * Global filter
-
-// * START * Columns filter
-//
-const applayColumnFilters = (rows = [], columnsFilter = []) => {
-  if (columnsFilter && columnsFilter.length) {
-    try {
-      const regExArray = columnsFilter.map(({ filterText }) => new RegExp(filterText.trim(), 'i'));
-      const filterFailed = row =>
-        !columnsFilter.every(({ columnName }, index) =>
-          regExArray[index].test(`${getCellValueAsString(row[columnName], columnName)}`)
-        );
-      return genereteSkippedList(rows, filterFailed);
-    } catch (_) {
-      // ignore it
-    }
-  }
-  return [];
-};
-//
-// * END * Columns filter
-
-// * START * Sort filter
-//
 const cmpSingle = (firstRow, secondRow, { columnName, isAscending }) => {
   let firstCell = firstRow[columnName];
   let secondCell = secondRow[columnName];
@@ -75,7 +33,7 @@ const cmpSingle = (firstRow, secondRow, { columnName, isAscending }) => {
   const cmp = firstCell < secondCell ? -1 : 1;
   return isAscending ? cmp : -cmp;
 };
-//
+
 const cmpMultiply = (firstRow, secondRow, columnsSort) => {
   let result = 0;
   columnsSort.find(sortCell => {
@@ -84,61 +42,70 @@ const cmpMultiply = (firstRow, secondRow, columnsSort) => {
   });
   return result;
 };
-//
-const applayColumnSort = (rows = [], columnsSort = []) => {
-  const filteredRowIndexes = getDefaultIndexesArray(rows.length);
-  if (columnsSort.length || columnsSort.columnName) {
+
+const getSortedIndexes = createSelector(
+  state => state.tableData.rows,
+  state => state.tableData.columnsSort,
+  (rows = [], columnsSort = []) => {
+    const filteredRowIndexes = getDefaultIndexesArray(rows.length);
+    if (!columnsSort.length && !columnsSort.columnName) {
+      return filteredRowIndexes;
+    }
     const cmpFunc = Array.isArray(columnsSort) ? cmpMultiply : cmpSingle;
     return filteredRowIndexes.sort((first, second) =>
       cmpFunc(rows[first], rows[second], columnsSort)
     );
   }
-  return filteredRowIndexes;
-};
-//
-// * END *  filter
-
-// * START * Join all sort & filter's selectors
-//
-const applayFiltersAndSort = (sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter) =>
-  sortedIndexes.filter(
-    index => !skippedByGlobalFilter.includes(index) && !skippedByColumnsFilter.includes(index)
-  );
-//
-// * END *  filter
-
-// * START * Selectors
-//
-// sort by columns
-const rowsSortSelector = createSelector(
-  state => state.tableData.rows,
-  state => state.tableData.columnsSort,
-  (rows, columnsSort) => applayColumnSort(rows, columnsSort)
 );
-//
-// global filter
-const globalFilterSelector = createSelector(
+
+const getIgnoredByGlobalFilter = createSelector(
   state => state.tableData.rows,
   state => state.tableData.globalFilter,
-  (rows, globalFilter) => applayGlobalFilter(rows, globalFilter)
+  (rows = [], globalFilter = '') => {
+    if (!globalFilter) {
+      return [];
+    }
+    try {
+      const filterRegex = new RegExp(globalFilter.trim(), 'i');
+      const ignoreIt = row =>
+        !Object.entries(row).find(([columnName, cellValue]) =>
+          filterRegex.test(`${getCellValueAsString(cellValue, columnName)}`)
+        );
+      return getIgnoredIndexes(rows, ignoreIt);
+    } catch (_) {
+      return [];
+    }
+  }
 );
-//
-// filter by columns
-const columnsFilterSelector = createSelector(
+
+const getIgnoredByColumnsFilter = createSelector(
   state => state.tableData.rows,
   state => state.tableData.columnsFilter,
-  (rows, columnsFilter) => applayColumnFilters(rows, columnsFilter)
+  (rows = [], columnsFilter = []) => {
+    if (!columnsFilter || !columnsFilter.length) {
+      return [];
+    }
+    try {
+      const regExArray = columnsFilter.map(({ filterText }) => new RegExp(filterText.trim(), 'i'));
+      const ignoreIt = row =>
+        !columnsFilter.every(({ columnName }, index) =>
+          regExArray[index].test(`${getCellValueAsString(row[columnName], columnName)}`)
+        );
+      return getIgnoredIndexes(rows, ignoreIt);
+    } catch (_) {
+      return [];
+    }
+  }
 );
-//
-// global filter&sort selector
+
 const allFiltersAndSortSelector = createSelector(
-  rowsSortSelector,
-  globalFilterSelector,
-  columnsFilterSelector,
-  (sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter) =>
-    applayFiltersAndSort(sortedIndexes, skippedByGlobalFilter, skippedByColumnsFilter)
+  getSortedIndexes,
+  getIgnoredByGlobalFilter,
+  getIgnoredByColumnsFilter,
+  (sortedIndexes, ignoredByGlobalFilter, ignoredByColumnsFilter) =>
+    sortedIndexes.filter(
+      index => !(ignoredByGlobalFilter.includes(index) || ignoredByColumnsFilter.includes(index))
+    )
 );
-//
-// * END *  Selectors
 
 export default allFiltersAndSortSelector;

@@ -29,7 +29,7 @@
   flex-wrap: nowrap;
 }
 
-.tr.stiky {
+.tr.sticky {
   position: sticky;
   z-index: 3;
   top: 0;
@@ -55,7 +55,7 @@
   color: white;
 }
 
-.th.stiky.fix-num {
+.th.sticky.fix-num {
   z-index: 10;
 }
 
@@ -80,7 +80,7 @@
   flex-grow: 1;
 }
 
-.th.stiky, .td.fix-num {
+.th.sticky, .td.fix-num {
   position: sticky;
   left: 0;
   z-index: 1;
@@ -96,7 +96,7 @@
   align-items: center;
 }
 
-.td.stiky {
+.td.sticky {
   position: sticky;
   left: 0;
 }

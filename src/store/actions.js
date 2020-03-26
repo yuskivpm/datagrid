@@ -3,14 +3,12 @@ import * as types from './actionTypes';
 import fetchData from '../services/dataApi';
 import { prepareAndSaveCsvFile } from '../utils/csvGenerator';
 
-// ** START ** Fetch table data from server **
-//
 export const fetchTableDataStart = createAction(types.FETCH_TABLE_DATA);
-//
+
 export const fetchTableDataReceive = createAction(types.FETCH_TABLE_DATA_OK);
-//
+
 export const fetchTableDataError = createAction(types.FETCH_TABLE_DATA_ERROR);
-//
+
 // thunk action creator
 export function fetchTableData(rowCount, loadUiConst, onFinishFetching) {
   return function callback(dispatch) {
@@ -18,39 +16,23 @@ export function fetchTableData(rowCount, loadUiConst, onFinishFetching) {
     fetchData(rowCount, loadUiConst, onFinishFetching);
   };
 }
-//
-// ** END ** fetch table data from server **
 
-// ** START ** Table sort & filtering **
-//
-// filter in any columns of the table
 export const tableGlobalFilter = createAction(types.TABLE_GLOBAL_FILTER);
-//
-// fill array of columns with its filter values
-export const tableColumnFilter = createAction(types.TABLE_COLUMN_FILTER);
-//
-// fill array of columns with its sort directions
-export const tableSort = createAction(types.TABLE_SORT_BY_COLUMN);
-//
-// fill array of columns with its sort directions
-export const changeFiltersVisibility = createAction(types.TABLE_CHANGE_FILTERS_VISIBILITY);
-//
-// ** END ** Table sort & filtering **
 
-// ** START ** Table ui **
-//
-// change table virtualization type of row drawing
+export const tableColumnFilter = createAction(types.TABLE_COLUMN_FILTER);
+
+export const tableSort = createAction(types.TABLE_SORT_BY_COLUMN);
+
+export const changeFiltersVisibility = createAction(types.TABLE_CHANGE_FILTERS_VISIBILITY);
+
 export const changeTableVirtualization = createAction(types.TABLE_CHANGE_VIRTUALIZATION);
-//
-// remove selected rows
+
 export const removeSelectedRows = createAction(types.TABLE_REMOVE_ROWS);
-//
-// change list of visible columns
+
 export const changeColumnList = createAction(types.TABLE_CHANGE_COLUMN_LIST);
-//
-// change count of fixed columns
+
 export const changeFixedColumnsCount = createAction(types.TABLE_CHANGE_FIXED_COLUMNS_COUNT);
-//
+
 // thunk action creator
 export function saveCsvTableData(filteredRowIndexes) {
   return function callback(_, getState) {
@@ -60,5 +42,3 @@ export function saveCsvTableData(filteredRowIndexes) {
     prepareAndSaveCsvFile(columnOrder, rows, filteredRowIndexes);
   };
 }
-//
-// ** END ** Table ui **
