@@ -38,6 +38,17 @@ class MainPage extends React.Component {
   onChangePossibleAllRowsCount = allRowsCount =>
     this.setState({ allRowsCount: convertToNumber(allRowsCount) });
 
+  handleFixedColumnsCountChange = newValue => {
+    const { fixedColumnsCount, onFixedColumnsCountChange } = this.props;
+    if (newValue !== fixedColumnsCount) {
+      onFixedColumnsCountChange(newValue);
+    }
+  };
+
+  handleEventTargetValue = event => this.handleFixedColumnsCountChange(event.target.value);
+
+  handleEventValue = event => this.handleFixedColumnsCountChange(event.value);
+
   render() {
     const { error } = this.props;
     if (error) {
@@ -66,7 +77,6 @@ class MainPage extends React.Component {
       onGlobalFilterChange,
       onChangeTableVirtualization,
       fixedColumnsCount,
-      onFixedColumnsCountChange,
       columnOrder,
       currentAllRowsCount,
     } = this.props;
@@ -112,7 +122,7 @@ class MainPage extends React.Component {
                 type="number"
                 style={FIXED_COLUMNS_WIDTH_STYLE}
                 value={fixedColumnsCount}
-                onChange={e => onFixedColumnsCountChange(e.target.value)}
+                onChange={this.handleEventTargetValue}
               />
               <label htmlFor="fix-col-count">Fixed columns count</label>
             </span>
@@ -121,7 +131,7 @@ class MainPage extends React.Component {
               min={0}
               max={Math.min(4, columnOrder.length - 1)}
               style={FIXED_COLUMNS_WIDTH_STYLE}
-              onChange={e => onFixedColumnsCountChange(e.value)}
+              onChange={this.handleEventValue}
             />
           </div>
           <div className="sliders">
