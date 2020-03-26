@@ -7,6 +7,7 @@ import {
   fetchTableDataReceive,
   fetchTableDataError,
   changeFixedColumnsCount,
+  changeFakerSeed,
 } from '../store/actions';
 import rowsSortAndFilterSelector from '../store/selectors';
 
@@ -20,6 +21,7 @@ const mapStateToProps = state => {
     fixedColumnsCount = 1,
     columnOrder,
     rows,
+    fakerSeed = 0,
   } = state.tableData;
   return {
     tableLoaded,
@@ -29,6 +31,7 @@ const mapStateToProps = state => {
     virtualization,
     fixedColumnsCount,
     columnOrder,
+    fakerSeed,
     currentAllRowsCount: rows.length,
     filteredRowsCount: rowsSortAndFilterSelector(state).length,
   };
@@ -37,12 +40,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onGlobalFilterChange: searchText => dispatch(tableGlobalFilter(searchText)),
   onChangeTableVirtualization: () => dispatch(changeTableVirtualization()),
+  onChangeFakerSeed: newFakerSeed => dispatch(changeFakerSeed(newFakerSeed)),
   onFixedColumnsCountChange: newFixedColumnsCount =>
     dispatch(changeFixedColumnsCount(newFixedColumnsCount)),
-  onNeedFetch: (rowCount, loadUiConst) =>
+  onNeedFetch: (rowCount, loadUiConst, fakerSeed) =>
     dispatch(
-      fetchTableData(rowCount, loadUiConst, (data, error) =>
-        dispatch(data ? fetchTableDataReceive(data) : fetchTableDataError(error))
+      fetchTableData(
+        rowCount,
+        loadUiConst,
+        (data, error) => dispatch(data ? fetchTableDataReceive(data) : fetchTableDataError(error)),
+        fakerSeed
       )
     ),
 });

@@ -60,12 +60,12 @@ class MainPage extends React.Component {
       );
     }
 
-    const { tableLoaded, onNeedFetch } = this.props;
+    const { tableLoaded, onNeedFetch, fakerSeed } = this.props;
 
     if (!tableLoaded) {
       if (typeof tableLoaded === 'undefined') {
         const { columnOrder } = this.props;
-        onNeedFetch(DEFAULT_ROW_COUNT, columnOrder.length === 0);
+        onNeedFetch(DEFAULT_ROW_COUNT, columnOrder.length === 0, fakerSeed);
       }
       return <img src={spinner} className="table-spinner" alt="Waiting for the requested data" />;
     }
@@ -76,6 +76,7 @@ class MainPage extends React.Component {
       filteredRowsCount,
       onGlobalFilterChange,
       onChangeTableVirtualization,
+      onChangeFakerSeed,
       fixedColumnsCount,
       columnOrder,
       currentAllRowsCount,
@@ -156,6 +157,16 @@ class MainPage extends React.Component {
               onChange={e => this.onChangePossibleAllRowsCount(e.value)}
             />
           </div>
+          <span className="p-float-label">
+            <InputText
+              id="faker-seed"
+              type="number"
+              style={FIXED_COLUMNS_WIDTH_STYLE}
+              value={fakerSeed}
+              onChange={e => onChangeFakerSeed(e.target.value)}
+            />
+            <label htmlFor="faker-seed">Faker seed</label>
+          </span>
           <Button
             label="Fetch new data"
             tooltip={
@@ -163,7 +174,7 @@ class MainPage extends React.Component {
                 ? 'Avoid to turn off virtualization'
                 : 'Generate new table'
             }
-            onClick={() => onNeedFetch(allRowsCount, false)}
+            onClick={() => onNeedFetch(allRowsCount, false, fakerSeed)}
           />
           <p>
             Found rows:&nbsp;
@@ -184,12 +195,14 @@ MainPage.propTypes = {
   onGlobalFilterChange: PropTypes.func.isRequired,
   onChangeTableVirtualization: PropTypes.func.isRequired,
   onFixedColumnsCountChange: PropTypes.func.isRequired,
+  onChangeFakerSeed: PropTypes.func.isRequired,
   onNeedFetch: PropTypes.func.isRequired,
   filteredRowsCount: PropTypes.number.isRequired,
   columnsFilter: PropTypes.arrayOf(PropTypes.object).isRequired,
   fixedColumnsCount: PropTypes.number,
   currentAllRowsCount: PropTypes.number,
   columnOrder: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fakerSeed: PropTypes.number,
 };
 
 MainPage.defaultProps = {
@@ -198,6 +211,7 @@ MainPage.defaultProps = {
   globalFilter: '',
   fixedColumnsCount: 1,
   currentAllRowsCount: 0,
+  fakerSeed: 0,
 };
 
 export default MainPage;

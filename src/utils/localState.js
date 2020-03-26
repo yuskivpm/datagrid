@@ -22,6 +22,7 @@ export const saveState = ({
     columnOrder,
     showFilters,
     fixedColumnsCount,
+    fakerSeed,
   },
 }) => {
   try {
@@ -34,6 +35,7 @@ export const saveState = ({
         columnOrder,
         showFilters,
         fixedColumnsCount,
+        fakerSeed,
       })
     );
   } catch (_) {

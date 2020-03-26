@@ -10,10 +10,10 @@ export const fetchTableDataReceive = createAction(types.FETCH_TABLE_DATA_OK);
 export const fetchTableDataError = createAction(types.FETCH_TABLE_DATA_ERROR);
 
 // thunk action creator
-export function fetchTableData(rowCount, loadUiConst, onFinishFetching) {
+export function fetchTableData(rowCount, loadUiConst, onFinishFetching, fakerSeed) {
   return function callback(dispatch) {
     dispatch(fetchTableDataStart());
-    fetchData(rowCount, loadUiConst, onFinishFetching);
+    fetchData(rowCount, loadUiConst, onFinishFetching, fakerSeed);
   };
 }
 
@@ -32,6 +32,8 @@ export const removeSelectedRows = createAction(types.TABLE_REMOVE_ROWS);
 export const changeColumnList = createAction(types.TABLE_CHANGE_COLUMN_LIST);
 
 export const changeFixedColumnsCount = createAction(types.TABLE_CHANGE_FIXED_COLUMNS_COUNT);
+
+export const changeFakerSeed = createAction(types.TABLE_CHANGE_FAKER_SEED);
 
 // thunk action creator
 export function saveCsvTableData(filteredRowIndexes) {

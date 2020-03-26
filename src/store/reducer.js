@@ -94,6 +94,9 @@ const tableData = createReducer(defaultFetchTableData, {
   [actions.changeFixedColumnsCount]: (state, action) => {
     state.fixedColumnsCount = Math.max(0, convertToNumber(action.payload));
   },
+  [actions.changeFakerSeed]: (state, action) => {
+    state.fakerSeed = +action.payload;
+  },
 });
 
 export default tableData;
